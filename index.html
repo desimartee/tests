@@ -33,7 +33,7 @@
 :root[data-theme="dark"]{
   --bg:#0b0b0c; --bg2:#050506; --card:#161618; --ink:#f2f2f3; --muted:#a4a5ab; --line:#2a2a2f;
   --primary:#c0293a; --primary-ink:#ffffff; --primary-soft:#2b1a1d; --accent:#9a9ba2;
-  --tile:#38383e; --tile2:#27272c; --tileink:#fff; --tilesub:rgba(255,255,255,.72); --herosub:rgba(255,255,255,.78); --herobtn:#fff; --herobtnink:#9e1b2a; --dot:#d4d4d9;
+  --tile:#38383e; --tile2:#27272c; --tileink:#fff; --tilesub:rgba(255,255,255,.72); --herosub:rgba(255,255,255,.78); --herobtn:#c0293a; --herobtnink:#fff; --dot:#d4d4d9;
   --ok:#69d49c; --okbg:#143125; --bad:#ff8c95; --badbg:#3a1a1f; --shadow:none;
 }
 :root.nt{transition:none}
@@ -44,6 +44,7 @@ body{margin:0;min-height:100vh;color:var(--ink);background:linear-gradient(180de
 #app{max-width:520px;margin:0 auto;padding:18px 18px 96px}
 h1,h2,h3,p{margin:0}
 h1{font-size:30px;line-height:1.15;font-weight:700;letter-spacing:-.02em}
+:root[data-theme=dark] .top h1{color:var(--primary)}
 h2{font-size:24px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
 h3{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
 .sub{margin-top:4px;color:var(--muted)}
@@ -69,6 +70,7 @@ a.link{text-decoration:none;display:inline-block}
   background:var(--tile);color:var(--tileink);box-shadow:var(--shadow);transition:transform .12s}
 .tile:active{transform:scale(.97)}
 .tile .tic{width:46px;height:46px;border-radius:15px;background:#fff;color:var(--t-fg);display:grid;place-items:center;font:700 23px Poppins,sans-serif;margin-bottom:auto;box-shadow:0 4px 10px rgba(0,0,0,.06)}
+:root[data-theme=dark] .tile .tic{background:var(--primary);color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.3)}
 .tile b{font-size:16px;line-height:1.25;margin-top:12px;overflow-wrap:anywhere}
 .tile small{color:var(--tilesub);font-size:12.5px;line-height:1.3}
 .redeem{margin-top:26px}
@@ -96,6 +98,13 @@ input[type=text]:focus,.ta:focus{outline:none;border-color:var(--primary)}
 @keyframes qnum{0%{transform:scale(1);color:inherit}35%{transform:scale(1.35);color:var(--primary)}100%{transform:scale(1);color:inherit}}
 @keyframes dotin{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes dotdone{0%{transform:scaleY(1)}40%{transform:scaleY(1.9)}100%{transform:scaleY(1)}}
+[id^=lst-]{display:block;margin-top:3px}
+[id^=lst-][hidden]{display:none}
+.stctl{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px;white-space:normal}
+.stl{font-size:12px;color:var(--muted);font-weight:600;flex-basis:100%}
+.stin{width:70px;font:inherit;padding:6px 8px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg2);color:var(--ink)}
+.lok{color:#2e8b57!important;font-weight:700}
+.lbad{color:var(--primary)!important;font-weight:700}
 .set.need{animation:shk .4s}
 .set.need .seg button{border-color:var(--primary)}
 .needmsg{margin:8px 2px 0;color:var(--primary);font-size:13px;font-weight:600}
@@ -288,7 +297,7 @@ const I18N = {
   okL:"Töötab", badL:"Ei tööta", waitL:"ootab", loadL:"kontrollin…", expected:"Oodatud",
   weakBadge:"nõrk",
   nItems:"{n} küsimust", dirT:"Suund", dirQA:"Küsimus → vastus", dirAQ:"Vastus → küsimus",
-  devOn:"Arendajarežiim on sees.",
+  devOn:"Arendajarežiim on sees.", devOffM:"Arendajarežiim on välja lülitatud.", devNot:"Arendajarežiim polnud sees.",
   hi:"Tere!", hiS:"Vali aine ja hakka harjutama.", heroT:"Mida õpime täna?", heroS:"Jätka ainega {n}", subjects:"Ained", nSongs:"{n} laulu",
   paused:"Peatatud", slow:"Ei hakanud mängima. Vajuta uuesti.",
   checkT:"Kontrollimine", chkEach:"Iga küsimuse järel", chkEnd:"Lõpus",
@@ -315,10 +324,12 @@ const P = {
   qstats: store.load("qstats",{}),
   last: store.load("last","music"),
   alt: store.load("altLinks",{}),
+  starts: store.load("startTimes",{}),
   theme: store.load("theme","light")
 };
 if(!I18N[P.lang]) P.lang="et";
 const DEV_HASH = "2bf5pdwtahy";
+const NODEV_HASH = "21dk349a2z5";
 const songs = () => SONGS.filter(s=>!P.hidden.includes(s.id)).map(s=>Object.assign({},s,{alt:(s.alt||[]).concat(P.alt[s.id]||[])})).concat(P.extra.map(s=>Object.assign({},s,{alt:P.alt[s.id]||[]})));
 const allSubjects = () => SUBJECTS.concat(P.custom.map(c=>Object.assign({custom:true,always:false},c)));
 const subjName = s => (s.name && (s.name[P.lang] || s.name.et || s.name.en)) || "?";
@@ -399,8 +410,9 @@ function onYtState(e){
   if(e.data===S_.PLAYING && !clip.began){
     clip.began=true; clearTimeout(clip.wd);
     if(q.start==null){
-      let st=0;
-      if(P.opts.random){
+      let st=0; const cs=P.starts[q.song.id];
+      if(cs!=null){ st=cs; if(st>0) yt.player.seekTo(st,true); }
+      else if(P.opts.random){
         const dur=yt.player.getDuration()||0;
         const max=Math.floor(dur-q.len-3);
         if(max>5){ st=Math.floor(Math.random()*max); yt.player.seekTo(st,true); }
@@ -449,6 +461,7 @@ function stopClip(silent){
 const STATE_OF={idle:"idle",loading:"loading",playing:"playing",paused:"paused",done:"done",errv:"error",noapi:"error",wait:"idle",slow:"error"};
 function setStatus(k,v){
   clip.status=k; clip.statusVars=v||null;
+  if(clip.q&&clip.q.dev&&V.listen&&V.name==="songs"){ V.listen.state=k; V.listen.vars=v||null; const e=document.getElementById("lst-"+V.listen.id); if(e) e.outerHTML=listenHtml(V.listen.id); const b=document.querySelector(`[data-a=song-listen][data-id="${V.listen.id}"]`); if(b) b.textContent=(k==="loading"||k==="playing"||k==="paused")?"■ Stop":"▶ Listen"; }
   const pl=document.querySelector(".player"); if(pl) pl.dataset.s=STATE_OF[k]||"idle";
   const el=document.getElementById("pstatus");
   if(el){ el.textContent=t(k,v); el.className=(k==="errv"||k==="noapi"||k==="wait"||k==="slow")?"err":""; }
@@ -730,6 +743,11 @@ function redeem(){
     else { P.dev=true; store.save("dev",true); V.msg={k:"ok",t:t("devOn")}; }
     render(); return;
   }
+  if(h===NODEV_HASH){
+    if(P.dev){ P.dev=false; store.save("dev",false); V.msg={k:"ok",t:t("devOffM")}; }
+    else V.msg={k:"bad",t:t("devNot")};
+    render(); return;
+  }
   const s=allSubjects().find(x=>x.codeHash===h);
   if(!s) V.msg={k:"bad",t:t("rBad")};
   else if(P.unlocked.includes(s.id)) V.msg={k:"bad",t:t("rDup")};
@@ -936,7 +954,7 @@ function saveSubject(){
   let err=null;
   if(!f.nameEt.trim()&&!f.nameEn.trim()) err="Give the subject a name.";
   else if(code.length<4) err="The code needs at least 4 letters or numbers.";
-  else if(h===DEV_HASH||SUBJECTS.some(s=>s.codeHash===h)||P.custom.some(c=>c.codeHash===h&&c.id!==f.id)) err="That code is already used.";
+  else if(h===DEV_HASH||h===NODEV_HASH||SUBJECTS.some(s=>s.codeHash===h)||P.custom.some(c=>c.codeHash===h&&c.id!==f.id)) err="That code is already used.";
   else if(bad.length) err="These lines have no ';' or an empty side: "+bad.join(", ");
   else if(items.length<2) err="Add at least 2 questions.";
   if(err){ V.msg={k:"bad",t:err}; render(); window.scrollTo(0,0); return; }
@@ -955,6 +973,34 @@ function ytId(s){
   if(m) return m[1];
   return /^[A-Za-z0-9_-]{11}$/.test(s)?s:null;
 }
+function listenHtml(id){
+  const L_=V.listen; if(!L_||L_.id!==id) return `<small id="lst-${esc(id)}" hidden></small>`;
+  const k=L_.state, q=clip.q, alt=q&&q.dev&&q.vid&&q.vid!==q.song.yt?" (backup link)":"";
+  const m={loading:["Loading…",""],playing:["✓ Plays"+alt,"ok"],paused:["Paused"+alt,"ok"],done:["✓ Plays"+alt,"ok"],
+    errv:["✗ "+errText(L_.vars&&L_.vars.c),"bad"],slow:["✗ Did not load in 9 s — probably blocked","bad"],noapi:["✗ YouTube player not available here","bad"],wait:["Player is still starting — try again in a moment",""]}[k]||["",""];
+  return `<small id="lst-${esc(id)}" class="${m[1]==="ok"?"lok":m[1]==="bad"?"lbad":""}">${m[0]}</small>`;
+}
+function devListen(id){
+  const song=songs().find(x=>x.id===id); if(!song) return;
+  if(V.listen&&V.listen.id===id&&["loading","playing","paused"].includes(V.listen.state)){ stopClip(); V.listen=null; render(); return; }
+  if(yt.failed){ V.listen={id,state:"noapi"}; render(); return; }
+  if(!yt.ready){ V.listen={id,state:"wait"}; render(); return; }
+  stopClip(true);
+  const q={song,len:1e6,start:P.starts[id]||0,altIdx:0,vid:song.yt,dev:true};
+  clip.q=q; clip.began=false; clip.progress=0; clip.err=false;
+  V.listen={id,state:"loading"}; render();
+  clearTimeout(clip.wd); clip.wd=setTimeout(()=>{ if(clip.status==="loading") setStatus("slow"); },9000);
+  clip.status="loading";
+  try{ yt.player.loadVideoById({videoId:song.yt,startSeconds:q.start}); }catch(_){ setStatus("errv",{c:5}); }
+}
+const fmtT=n=>Math.floor(n/60)+":"+String(Math.floor(n%60)).padStart(2,"0");
+function startCtl(s){
+  const act=V.listen&&V.listen.id===s.id&&["playing","paused","loading"].includes(V.listen.state), cs=P.starts[s.id];
+  return `<div class="stctl"><span class="stl">Start: ${cs!=null?fmtT(cs)+" ("+cs+" s)":"random / 0:00"}</span>
+    <input id="st-${esc(s.id)}" class="stin" type="number" min="0" max="1200" inputmode="numeric" placeholder="s" value="${cs!=null?cs:""}">
+    ${chip("Save","song-start",s.id)}${cs!=null?chip("Clear","song-startclr",s.id):""}
+    ${act?chip("−10 s","song-seek-10",s.id)+chip("+10 s","song-seek10",s.id)+chip("Start = now","song-startnow",s.id):""}</div>`;
+}
 function viewSongs(){
   const rows=SONGS.map(s=>({s,b:true})).concat(P.extra.map(s=>({s,b:false})));
   const f=V.form;
@@ -962,8 +1008,8 @@ function viewSongs(){
   <h2>Song list</h2><p class="sub">${songs().length} songs are in the test. Removing a built-in song only hides it on this device.</p>
   ${V.msg?`<p class="msg ${V.msg.k}">${esc(V.msg.t)}</p>`:""}
   <div class="list">${rows.map(({s,b})=>{ const hid=b&&P.hidden.includes(s.id), na=(P.alt[s.id]||[]).length+((s.alt||[]).length);
-    return `<div class="item" style="${hid?"opacity:.5":""}"><div class="t" style="white-space:normal"><b style="white-space:normal">${esc(s.title)}</b><small>${esc(s.composer)} · ${esc(s.yt)}${b?"":" · added by you"}${na?" · "+na+" backup link"+(na>1?"s":""):""}</small></div>
-    <div class="pills">${b?chip(hid?"Restore":"Remove","song-toggle",s.id):chip("Delete","song-del",s.id)}</div></div>`; }).join("")}</div>
+    return `<div class="item" style="${hid?"opacity:.5":""}"><div class="t" style="white-space:normal"><b style="white-space:normal">${esc(s.title)}</b><small>${esc(s.composer)} · ${esc(s.yt)}${b?"":" · added by you"}${na?" · "+na+" backup link"+(na>1?"s":""):""}</small>${listenHtml(s.id)}${startCtl(s)}</div>
+    <div class="pills">${chip(V.listen&&V.listen.id===s.id&&["loading","playing","paused"].includes(V.listen.state)?"■ Stop":"▶ Listen","song-listen",s.id)}${b?chip(hid?"Restore":"Remove","song-toggle",s.id):chip("Delete","song-del",s.id)}</div></div>`; }).join("")}</div>
   <div class="set"><h3>Add a song</h3>
     <div class="field"><label for="f-st">Title</label><input id="f-st" data-g="st" type="text" value="${esc(f.st)}" autocomplete="off"></div>
     <div class="field"><label for="f-sc">Composer</label><input id="f-sc" data-g="sc" type="text" value="${esc(f.sc)}" autocomplete="off"></div>
@@ -998,7 +1044,7 @@ function restoreBackup(){
   try{
     const o=JSON.parse(el.value);
     if(!o||o.v!==1||![o.custom,o.extra,o.hidden,o.unlocked].every(Array.isArray)) throw new Error("bad");
-    P.custom=o.custom; P.extra=o.extra; P.hidden=o.hidden; P.unlocked=o.unlocked; P.alt=(o.alt&&typeof o.alt==="object")?o.alt:{}; store.save("altLinks",P.alt);
+    P.custom=o.custom; P.extra=o.extra; P.hidden=o.hidden; P.unlocked=o.unlocked; P.alt=(o.alt&&typeof o.alt==="object")?o.alt:{}; store.save("altLinks",P.alt); P.starts=(o.starts&&typeof o.starts==="object")?o.starts:{}; store.save("startTimes",P.starts);
     store.save("custom",P.custom); store.save("extraSongs",P.extra); store.save("hiddenSongs",P.hidden); store.save("unlocked",P.unlocked);
     V.msg={k:"ok",t:"Backup restored."};
   }catch(e){ V.msg={k:"bad",t:"That doesn't look like a valid backup."}; }
@@ -1029,7 +1075,7 @@ function act(a,d){
     case "reset-all":
       if(V.armReset){ P.stats={}; P.qstats={}; store.save("stats",P.stats); store.save("qstats",P.qstats); V.armReset=false; V.msg={k:"ok",t:"All progress reset."}; } else V.armReset=true;
       render(); break;
-    case "backup": copyText(JSON.stringify({v:1,custom:P.custom,extra:P.extra,hidden:P.hidden,unlocked:P.unlocked,alt:P.alt})); break;
+    case "backup": copyText(JSON.stringify({v:1,custom:P.custom,extra:P.extra,hidden:P.hidden,unlocked:P.unlocked,alt:P.alt,starts:P.starts})); break;
     case "restore": restoreBackup(); break;
     case "pack": copyText(makePack(P.custom.find(x=>x.id===d.id))); break;
     case "subj-new": V={name:"subj-edit",msg:null,form:{id:null,nameEt:"",nameEn:"",icon:"",code:"",strict:false,text:""}}; render(); window.scrollTo(0,0); break;
@@ -1044,6 +1090,14 @@ function act(a,d){
       render(); break;
     case "songs": V={name:"songs",msg:null,form:{st:"",sc:"",sl:"",bs:SONGS[0].id,bl:""}}; render(); window.scrollTo(0,0); break;
     case "song-add": addSong(); break;
+    case "song-listen": devListen(d.id); break;
+    case "song-start": { const el=document.getElementById("st-"+d.id); const n=el?parseInt(el.value,10):NaN;
+      if(isNaN(n)||n<0||n>1200){ V.msg={k:"bad",t:"Enter a start time in seconds (0–1200)."}; render(); break; }
+      P.starts[d.id]=n; store.save("startTimes",P.starts); V.msg={k:"ok",t:"Start time saved: "+fmtT(n)+"."}; render(); break; }
+    case "song-startclr": delete P.starts[d.id]; store.save("startTimes",P.starts); V.msg={k:"ok",t:"Start time cleared."}; render(); break;
+    case "song-startnow": { let n=0; try{ n=Math.floor(yt.player.getCurrentTime()); }catch(_){}
+      P.starts[d.id]=n; store.save("startTimes",P.starts); V.msg={k:"ok",t:"Start time saved: "+fmtT(n)+"."}; render(); break; }
+    case "song-seek-10": case "song-seek10": { try{ const c=yt.player.getCurrentTime(); yt.player.seekTo(Math.max(0,c+(a==="song-seek10"?10:-10)),true); }catch(_){} break; }
     case "song-toggle": P.hidden=P.hidden.includes(d.id)?P.hidden.filter(x=>x!==d.id):P.hidden.concat([d.id]); store.save("hiddenSongs",P.hidden); render(); break;
     case "song-del": P.extra=P.extra.filter(x=>x.id!==d.id); store.save("extraSongs",P.extra); render(); break;
     case "qa-start": if(V.name==="qa"&&!missing(["mode","qadir","qacount","checkEnd"])) break; startQA(d.id,d.weak==="1"); break;
