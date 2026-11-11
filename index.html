@@ -2,111 +2,208 @@
 <html lang="et">
 <head>
 <meta charset="utf-8">
+<script>try{var th=JSON.parse(localStorage.getItem("opi.theme"));document.documentElement.setAttribute("data-theme",th==="dark"?"dark":"light");}catch(e){document.documentElement.setAttribute("data-theme","light");}document.documentElement.className="nt";</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="theme-color" content="#f6f1e7">
-<title>Õpi! · Study</title>
+<meta name="theme-color" content="#f1f1f3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Tamme testid</title>
 <style>
+@property --bg{syntax:"<color>";inherits:true;initial-value:#f1f1f3}
+@property --bg2{syntax:"<color>";inherits:true;initial-value:#ffffff}
+@property --card{syntax:"<color>";inherits:true;initial-value:#ffffff}
+@property --ink{syntax:"<color>";inherits:true;initial-value:#1b1b1f}
+@property --muted{syntax:"<color>";inherits:true;initial-value:#6f7076}
+@property --line{syntax:"<color>";inherits:true;initial-value:#dcdce0}
+@property --primary{syntax:"<color>";inherits:true;initial-value:#9e1b2a}
+@property --primary-ink{syntax:"<color>";inherits:true;initial-value:#ffffff}
+@property --primary-soft{syntax:"<color>";inherits:true;initial-value:#f5e7e9}
+@property --tile{syntax:"<color>";inherits:true;initial-value:#5d5e66}
+@property --tile2{syntax:"<color>";inherits:true;initial-value:#46474e}
 :root{
-  --bg:#f6f1e7; --card:#fffdf8; --ink:#1d2433; --muted:#6b7280; --line:#e4dccb;
-  --accent:#d9553b; --accent-ink:#fff; --teal:#2f5d62; --ok:#2e7d4f; --bad:#c0392b;
-  --okbg:#e5f3ea; --badbg:#fbe9e6; --shadow:0 1px 2px rgba(29,36,51,.06),0 6px 20px rgba(29,36,51,.06);
+  --bg:#f1f1f3; --bg2:#ffffff; --card:#ffffff; --ink:#1b1b1f; --muted:#6f7076; --line:#dcdce0;
+  --primary:#9e1b2a; --primary-ink:#ffffff; --primary-soft:#f5e7e9; --teal:var(--primary); --accent:#8d8e95;
+  --tile:#5d5e66; --tile2:#46474e;
+  --ok:#1b9a60; --okbg:#e3f5ec; --bad:#c62f3d; --badbg:#fbe9eb;
+  --shadow:0 2px 4px rgba(0,0,0,.04),0 10px 28px rgba(0,0,0,.08);
+  transition:--bg .55s ease,--bg2 .55s ease,--card .55s ease,--ink .55s ease,--muted .55s ease,--line .55s ease,--primary .55s ease,--primary-ink .55s ease,--primary-soft .55s ease,--tile .55s ease,--tile2 .55s ease;
 }
-@media (prefers-color-scheme:dark){
-  :root{--bg:#14171f; --card:#1d2230; --ink:#eef0f4; --muted:#9aa3b2; --line:#2c3345;
-  --accent:#ff8a6b; --accent-ink:#1a1008; --teal:#7fc1c8; --ok:#6ed19a; --bad:#ff8f80;
-  --okbg:#17301f; --badbg:#3a1d1a; --shadow:none}
+:root[data-theme="dark"]{
+  --bg:#0b0b0c; --bg2:#050506; --card:#161618; --ink:#f2f2f3; --muted:#a4a5ab; --line:#2a2a2f;
+  --primary:#c0293a; --primary-ink:#ffffff; --primary-soft:#2b1a1d; --accent:#9a9ba2;
+  --tile:#38383e; --tile2:#27272c;
+  --ok:#69d49c; --okbg:#143125; --bad:#ff8c95; --badbg:#3a1a1f; --shadow:none;
 }
+:root.nt{transition:none}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-#app{max-width:560px;margin:0 auto;padding:18px 16px 60px}
-h1,h2,h3{font-family:Georgia,"Times New Roman",serif;margin:0;letter-spacing:-.01em}
-h1{font-size:34px;line-height:1.05}
-h2{font-size:26px}
-h3{font-size:15px;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
-.sub{margin:4px 0 0;color:var(--muted)}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:22px}
-.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+body{margin:0;min-height:100vh;color:var(--ink);background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 70%) fixed;
+  font:16px/1.45 Poppins,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:520px;margin:0 auto;padding:18px 18px 96px}
+h1,h2,h3,p{margin:0}
+h1{font-size:30px;line-height:1.15;font-weight:700;letter-spacing:-.02em}
+h2{font-size:24px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
+h3{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+.sub{margin-top:4px;color:var(--muted)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin-bottom:2px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
 button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.link{background:none;border:0;padding:6px 0;color:var(--teal);font-weight:600}
-.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
-.lang button{border:0;background:none;padding:6px 12px;font-weight:700;font-size:13px;color:var(--muted)}
-.lang button.on{background:var(--ink);color:var(--bg)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px}
-.grid{display:grid;gap:12px}
-.subj{display:flex;gap:14px;align-items:center;text-align:left;width:100%}
-.subj b{display:block;font-size:18px}
-.subj small{color:var(--muted)}
-.ic{flex:none;width:46px;height:46px;border-radius:12px;background:var(--teal);color:var(--bg);display:grid;place-items:center;font:700 22px Georgia,serif}
+.link{background:var(--card);border:0;border-radius:99px;padding:9px 16px;color:var(--ink);font-weight:600;font-size:14px;box-shadow:var(--shadow)}
+a.link{text-decoration:none;display:inline-block}
+.lang{display:flex;border-radius:99px;overflow:hidden;background:var(--card);box-shadow:var(--shadow);padding:3px}
+.lang button{border:0;background:none;padding:6px 13px;font-weight:700;font-size:13px;color:var(--muted);border-radius:99px}
+.lang button.on{background:var(--primary);color:var(--primary-ink)}
+.card{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:16px}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px;border-radius:24px;
+  background:linear-gradient(135deg,var(--tile),var(--tile2));color:#fff;box-shadow:var(--shadow)}
+.hero h2{font-size:21px}
+.hero p{margin:6px 0 14px;color:rgba(255,255,255,.78);font-size:14px}
+.hero .btn{padding:11px 26px;border-radius:14px;background:#fff;color:#9e1b2a}
+.hero svg{flex:none}
+.sec{margin:26px 0 12px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:0;border-radius:22px;padding:16px;min-height:138px;
+  background:var(--tile);color:#fff;box-shadow:var(--shadow);transition:transform .12s}
+.tile:active{transform:scale(.97)}
+.tile .tic{width:46px;height:46px;border-radius:15px;background:#fff;color:var(--t-fg);display:grid;place-items:center;font:700 23px Poppins,sans-serif;margin-bottom:auto;box-shadow:0 4px 10px rgba(0,0,0,.06)}
+.tile b{font-size:16px;line-height:1.25;margin-top:12px;overflow-wrap:anywhere}
+.tile small{color:rgba(255,255,255,.72);font-size:12.5px;line-height:1.3}
 .redeem{margin-top:26px}
-.redeem label{display:block;font-weight:600;margin-bottom:8px}
+.redeem label{display:block;font-weight:600;margin-bottom:10px}
 .row{display:flex;gap:8px}
-input[type=text]{flex:1;min-width:0;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
-input[type=text]:focus{outline:2px solid var(--teal);border-color:transparent}
-.btn{border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;padding:12px 18px;border-radius:12px}
-.btn.big{width:100%;padding:15px;font-size:17px;margin-top:14px}
-.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.msg{margin:8px 0 0;font-weight:600}
+input[type=text]{flex:1;min-width:0;font:inherit;padding:13px 15px;border-radius:14px;border:2px solid var(--line);background:var(--bg2);color:var(--ink)}
+input[type=text]:focus,.ta:focus{outline:none;border-color:var(--primary)}
+.btn{border:0;background:var(--primary);color:var(--primary-ink);font-weight:600;padding:13px 20px;border-radius:14px}
+.btn.big{width:100%;padding:16px;font-size:17px;margin-top:16px;border-radius:18px;box-shadow:0 10px 22px rgba(158,27,42,.3)}
+.btn.big.cta{position:sticky;bottom:calc(14px + env(safe-area-inset-bottom));z-index:5}
+.btn.ghost{background:var(--card);color:var(--ink);box-shadow:none;border:2px solid var(--line)}
+.btn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed;box-shadow:none}
+.msg{margin:10px 0 0;font-weight:600}
 .msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)}
-.hint{color:var(--muted);font-size:14px;margin:8px 0 0}
-.set{margin-top:20px}
-.set h3{margin-bottom:8px}
-.seg{display:flex;gap:6px;flex-wrap:wrap}
-.seg button{flex:1;min-width:70px;padding:11px 10px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-weight:600}
-.seg button.on{border-color:var(--teal);background:var(--teal);color:var(--bg)}
-.seg button:disabled{opacity:.4}
-.switch{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card)}
-.switch i{flex:none;width:44px;height:26px;border-radius:99px;background:var(--line);position:relative;transition:.15s}
-.switch i:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.15s}
-.switch.on i{background:var(--teal)} .switch.on i:after{left:21px}
-.links{display:flex;gap:18px;margin-top:22px;justify-content:center}
-.qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:var(--muted);font-weight:600}
-.dots{display:flex;gap:4px;margin-bottom:14px}
-.dots i{flex:1;height:5px;border-radius:9px;background:var(--line)}
-.dots i.d{background:var(--teal)} .dots i.c{background:var(--accent)}
-.player{display:flex;gap:16px;align-items:center}
-.play{flex:none;width:68px;height:68px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:26px;display:grid;place-items:center;box-shadow:0 6px 16px rgba(217,85,59,.35)}
+.hint{color:var(--muted);font-size:13.5px;margin:10px 0 0}
+.set{margin-top:22px}
+.set h3{margin-bottom:10px}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1;min-width:76px;padding:13px 10px;border-radius:16px;border:2px solid transparent;background:var(--card);font-weight:600;box-shadow:var(--shadow)}
+.seg button.on{background:var(--primary);color:var(--primary-ink)}
+.seg button:disabled{opacity:.4;box-shadow:none}
+.switch{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 16px;border-radius:16px;border:0;background:var(--card);box-shadow:var(--shadow);font-weight:500}
+.switch i{flex:none;width:46px;height:28px;border-radius:99px;background:var(--line);position:relative;transition:.15s}
+.switch i:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.15s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch.on i{background:var(--primary)} .switch.on i:after{left:21px}
+.links{display:flex;gap:10px;margin-top:22px}
+.links .link{flex:1;text-align:center;padding:12px}
+.qhead{text-align:center;font-weight:600;margin-bottom:10px}
+.dots{display:flex;gap:5px;margin-bottom:18px}
+.dots i{flex:1;height:6px;border-radius:9px;background:var(--line)}
+.dots i.d{background:var(--primary)} .dots i.c{background:var(--primary);opacity:.45}
+.player{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#b3202f,#7a1220);color:#fff;padding:18px;overflow:hidden}
+.play{position:relative;flex:none;width:76px;height:76px;border-radius:50%;border:0;background:#fff;color:#9e1b2a;display:grid;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.25);transition:transform .15s}
+.play .ico{width:34px;height:34px;fill:currentColor;position:relative}
+.play .ico *{transform-box:fill-box;transform-origin:center;transition:opacity .22s,transform .4s cubic-bezier(.3,1.5,.5,1)}
+.i-pause,.i-replay{opacity:0;transform:scale(.3) rotate(-120deg)}
+.player[data-s=playing] .i-play,.player[data-s=done] .i-play,.player[data-s=error] .i-play{opacity:0;transform:scale(.3) rotate(120deg)}
+.player[data-s=playing] .i-pause{opacity:1;transform:none}
+.player[data-s=done] .i-replay,.player[data-s=error] .i-replay{opacity:1;transform:none}
+.play .ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.9);opacity:0;pointer-events:none}
+.player[data-s=playing] .ring{animation:ripple 1.8s ease-out infinite}
+.player[data-s=playing] .ring.r2{animation-delay:.9s}
+@keyframes ripple{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.7);opacity:0}}
+.player[data-s=loading] .play{animation:pulse .9s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(.9)}}
+.player[data-s=paused] .play{animation:breathe 1.8s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.08)}}
+.rp{flex:none;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.22);color:#fff;font-size:18px;display:grid;place-items:center}
+.rp[hidden]{display:none}
+.rp:active{transform:rotate(-120deg)}
+.play:active{transform:scale(.88)}
 .pmeta{flex:1;min-width:0}
-#pstatus{font-weight:600;margin-bottom:8px;min-height:1.4em}
-#pstatus.err{color:var(--bad)}
+#pstatus{font-weight:600;margin-bottom:10px;min-height:1.4em;font-size:15px}
+#pstatus.err{color:#ffe0e0}
 .bar{height:8px;border-radius:9px;background:var(--line);overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s linear}
-.grp{margin-top:20px}
-.opts{display:grid;gap:8px;margin-top:8px}
-.opt{text-align:left;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card)}
-.opt.sel{border-color:var(--teal);box-shadow:inset 0 0 0 1.5px var(--teal)}
+.player .bar{background:rgba(255,255,255,.28)}
+.bar i{display:block;height:100%;width:0;background:var(--primary);transition:width .2s linear}
+.player .bar i{background:#fff}
+.eq{display:flex;gap:3px;align-items:flex-end;height:26px;flex:none}
+.eq i{width:4px;height:6px;border-radius:3px;background:rgba(255,255,255,.5)}
+.player[data-s=playing] .eq i{background:#fff;animation:eq .9s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.15s} .eq i:nth-child(3){animation-delay:.3s} .eq i:nth-child(4){animation-delay:.45s}
+@keyframes eq{0%,100%{height:5px}50%{height:24px}}
+@media (prefers-reduced-motion:reduce){.player[data-s=playing] .eq i{animation:none;height:16px}.player[data-s] .ring,.player[data-s] .play{animation:none!important}:root{transition:none}}
+.grp{margin-top:22px}
+.opts{display:grid;gap:10px;margin-top:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border-radius:18px;border:2px solid var(--line);background:var(--card);font-weight:500;box-shadow:var(--shadow)}
+.opt .let{flex:none;width:30px;height:30px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-weight:700;font-size:14px}
+.opt.sel{border-color:var(--primary);background:var(--primary-soft)}
+.opt.sel .let{background:var(--primary);color:var(--primary-ink)}
 .field{margin-top:8px}
 .field+.field{margin-top:12px}
-.field label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:4px}
-.res{margin-top:14px;display:grid;gap:10px}
-.part{border-radius:12px;padding:12px 14px;border:1.5px solid}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.res{margin-top:16px;display:grid;gap:12px}
+.part{border-radius:18px;padding:14px 16px;border:2px solid}
 .part.ok{background:var(--okbg);border-color:var(--ok)}
 .part.bad{background:var(--badbg);border-color:var(--bad)}
 .part small{display:block;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:12px}
 .part b{display:block;font-size:17px;margin-top:2px}
 .part .yours{font-size:14px;color:var(--muted);margin-top:4px}
-.part .tag{float:right;font-weight:800}
+.part .tag{float:right;font-weight:700}
 .part.ok .tag{color:var(--ok)} .part.bad .tag{color:var(--bad)}
-.mini{margin-top:8px;border:0;background:none;color:var(--teal);font-weight:700;padding:4px 0}
-.score{font:700 56px Georgia,serif;margin:4px 0}
-.list{display:grid;gap:8px;margin-top:16px}
-.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.mini{margin-top:8px;border:0;background:none;color:var(--primary);font-weight:700;padding:4px 0}
+.score{font:700 60px/1 Poppins,sans-serif;margin:8px 0;color:var(--primary)}
+.list{display:grid;gap:10px;margin-top:16px}
+.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:13px 15px;border-radius:16px;background:var(--card);box-shadow:var(--shadow)}
 .item .t{min-width:0}
 .item .t b{display:block;overflow:hidden;text-overflow:ellipsis}
 .item .t small{color:var(--muted)}
 .pills{display:flex;gap:6px;flex:none}
-.pill{font-size:12px;font-weight:800;padding:3px 8px;border-radius:99px}
+.pill{font-size:12px;font-weight:700;padding:4px 9px;border-radius:99px}
 .pill.ok{background:var(--okbg);color:var(--ok)} .pill.bad{background:var(--badbg);color:var(--bad)} .pill.na{background:var(--line);color:var(--muted)}
-.mbar{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--muted);margin-top:4px}
+.mbar{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--muted);margin-top:6px}
 .mbar .bar{flex:1;height:6px}
-.mbar i.t{background:var(--teal)} .mbar i.c{background:var(--accent)}
-.weakb{font-size:11px;font-weight:800;color:var(--bad);margin-left:6px}
-.warn{background:var(--badbg);border:1px solid var(--bad);border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:12px}
+.mbar i.t{background:var(--primary)} .mbar i.c{background:var(--accent)}
+.weakb{font-size:11px;font-weight:700;color:var(--bad);margin-left:6px}
+.warn{background:var(--badbg);border-radius:14px;padding:11px 13px;font-size:14px;margin-bottom:12px;color:var(--bad)}
+.ta{width:100%;font:inherit;padding:13px 15px;border-radius:14px;border:2px solid var(--line);background:var(--bg2);color:var(--ink);resize:vertical;min-height:120px}
+.chip{border:0;background:var(--primary-soft);color:var(--primary);border-radius:99px;padding:7px 13px;font-weight:600;font-size:13px}
+.bigq{font:700 25px/1.3 Poppins,sans-serif;overflow-wrap:anywhere}
+code{background:var(--primary-soft);padding:1px 6px;border-radius:6px}
+.sm{padding:11px 16px!important;font-size:15px!important;margin-top:14px!important}
+.rv{padding:6px 16px}
+.rl{display:flex;gap:12px;align-items:flex-start;padding:11px 0}
+.rl+.rl{border-top:1px solid var(--line)}
+.rl i{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:14px;margin-top:2px}
+.rl.ok i{background:var(--okbg);color:var(--ok)} .rl.bad i{background:var(--badbg);color:var(--bad)}
+.rl small{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.rl b{display:block;overflow-wrap:anywhere}
+.rl .yr{display:block;color:var(--muted);font-size:13.5px}
+.theme{border:0;background:none;padding:0;border-radius:99px;flex:none}
+.theme .trk{display:block;position:relative;width:68px;height:36px;border-radius:99px;overflow:hidden;
+  background:linear-gradient(180deg,#e9e9ed,#cfcfd6);box-shadow:inset 0 2px 6px rgba(0,0,0,.15),0 4px 14px rgba(0,0,0,.1);transition:background .6s}
+:root[data-theme=dark] .theme .trk{background:linear-gradient(180deg,#2a2a2f,#0b0b0d)}
+.theme .knob{position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:50%;background:#9e1b2a;
+  box-shadow:0 0 0 4px rgba(158,27,42,.28),0 2px 6px rgba(0,0,0,.3);
+  transition:transform .6s cubic-bezier(.5,1.6,.5,1),background .5s,box-shadow .5s}
+:root[data-theme=dark] .theme .knob{transform:translateX(32px) rotate(360deg);background:#d9d9de;box-shadow:0 0 0 4px rgba(217,217,222,.15),0 2px 6px rgba(0,0,0,.4)}
+.theme .cr{position:absolute;border-radius:50%;background:#b3b3bb;opacity:0;transition:opacity .5s}
+.theme .cr.a{width:7px;height:7px;left:6px;top:6px}
+.theme .cr.b{width:5px;height:5px;left:15px;top:15px}
+:root[data-theme=dark] .theme .cr{opacity:1}
+.theme .cl{position:absolute;height:9px;border-radius:99px;background:#fff;opacity:.95;transition:transform .6s,opacity .5s}
+.theme .cl.c1{width:20px;right:9px;top:21px} .theme .cl.c2{width:14px;right:22px;top:11px}
+:root[data-theme=dark] .theme .cl{transform:translateY(22px);opacity:0}
+.theme .st{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:0;transition:opacity .6s .15s}
+.theme .st.s1{left:12px;top:9px} .theme .st.s2{left:20px;top:24px} .theme .st.s3{left:30px;top:13px}
+:root[data-theme=dark] .theme .st{opacity:1;animation:tw 2.4s ease-in-out infinite}
+.theme .st.s2{animation-delay:.8s!important} .theme .st.s3{animation-delay:1.5s!important}
+@keyframes tw{50%{opacity:.25}}
+.theme:active .knob{width:32px}
 #ytwrap{position:fixed;right:0;bottom:0;width:200px;height:200px;opacity:0;pointer-events:none;z-index:-1;overflow:hidden}
 .center{text-align:center}
-@media (max-width:380px){h1{font-size:30px}.play{width:60px;height:60px}}
+.ic{flex:none;width:46px;height:46px;border-radius:14px;background:var(--primary);color:var(--primary-ink);display:grid;place-items:center;font:700 22px Poppins,sans-serif}
+@media (max-width:380px){h1{font-size:26px}.play{width:62px;height:62px}.tile{min-height:128px}}
 </style>
 </head>
 <body>
@@ -154,7 +251,7 @@ const SUBJECTS = [
 
 const I18N = {
  et:{
-  app:"Õpi!", tag:"Harjutustestid kontrolltöödeks",
+  app:"Tamme testid", tag:"Harjutustestid kontrolltöödeks",
   redeemT:"Sul on kood?", redeem:"Ava", redeemPh:"Sisesta kood", redeemH:"Kood avab uue aine.",
   rOk:"Aine avatud: {n}", rDup:"See aine on juba avatud.", rBad:"Seda koodi ei leitud.",
   back:"← Tagasi", home:"Avalehele",
@@ -163,7 +260,7 @@ const I18N = {
   clipInfo:"Iga lõik kestab 15–20 sekundit.", start:"Alusta",
   progress:"Edusammud", check:"Kontrolli linke",
   soon:"Selle aine sisu pole veel lisatud.", soonH:"Tule hiljem tagasi!",
-  q:"Küsimus {i} / {n}", quit:"Katkesta",
+  q:"Küsimus {i} / {n}", quit:"✕ Katkesta",
   play:"Mängi", replay:"Mängi uuesti", wait:"Mängija laeb… proovi hetke pärast uuesti.",
   noapi:"YouTube'i mängija ei laadinud. Ava leht tavalises brauseris veebilingilt (mitte eelvaates ega failina) ja lülita reklaamiblokeerija välja.",
   loading:"Laen…", playing:"Mängib…", done:"Lõik lõppes", idle:"Vajuta mängi",
@@ -175,31 +272,13 @@ const I18N = {
   prog:"Edusammud", noData:"Pole veel proovitud", tries:"korda", reset:"Lähtesta edusammud", sure:"Kas oled kindel? Vajuta uuesti.",
   chk:"Linkide kontroll", chkInfo:"Siin on pealkirjad näha. Ära vaata enne testi!", runChk:"Kontrolli kõiki linke",
   okL:"Töötab", badL:"Ei tööta", waitL:"ootab", loadL:"kontrollin…", expected:"Oodatud",
-  weakBadge:"nõrk"
- },
- en:{
-  app:"Study!", tag:"Practice tests for your exams",
-  redeemT:"Got a code?", redeem:"Redeem", redeemPh:"Enter code", redeemH:"A code unlocks a new subject.",
-  rOk:"Subject unlocked: {n}", rDup:"You already unlocked that subject.", rBad:"That code wasn't found.",
-  back:"← Back", home:"Home",
-  music:"Music test", how:"Answer style", mc:"Multiple choice", type:"Type it",
-  nq:"Questions", all:"All", weak:"Weak", rnd:"Start the song at a random point",
-  clipInfo:"Each clip lasts 15–20 seconds.", start:"Start",
-  progress:"Progress", check:"Check links",
-  soon:"This subject has no content yet.", soonH:"Check back soon!",
-  q:"Question {i} / {n}", quit:"Quit",
-  play:"Play", replay:"Replay", wait:"Player is still loading… try again in a moment.",
-  noapi:"The YouTube player didn't load. Open the page in a normal browser from a web link (not in a preview or as a file) and turn off any ad blocker.",
-  loading:"Loading…", playing:"Playing…", done:"Clip finished", idle:"Press play",
-  errv:"Video won't play (error {c}).", openyt:"Open on YouTube", skip:"Skip",
-  title:"Title", composer:"Composer", ans:"Check", next:"Next", finish:"Finish",
-  right:"Correct", wrong:"Wrong", correctAns:"Correct answer", yours:"Your answer", empty:"(empty)",
-  iwas:"I was right", res:"Result", titles:"Titles", composers:"Composers",
-  again:"Try again", weakOnly:"Weak songs only", skipped:"skipped",
-  prog:"Progress", noData:"Not tried yet", tries:"tries", reset:"Reset progress", sure:"Are you sure? Tap again.",
-  chk:"Link check", chkInfo:"Titles are visible here. Don't peek before the test!", runChk:"Check all links",
-  okL:"Works", badL:"Not working", waitL:"waiting", loadL:"checking…", expected:"Expected",
-  weakBadge:"weak"
+  weakBadge:"nõrk",
+  nItems:"{n} küsimust", dirT:"Suund", dirQA:"Küsimus → vastus", dirAQ:"Vastus → küsimus",
+  devOn:"Arendajarežiim on sees.",
+  hi:"Tere!", hiS:"Vali aine ja hakka harjutama.", heroT:"Mida õpime täna?", heroS:"Jätka ainega {n}", subjects:"Ained", nSongs:"{n} laulu",
+  paused:"Peatatud", slow:"Ei hakanud mängima. Vajuta uuesti.",
+  checkT:"Kontrollimine", chkEach:"Iga küsimuse järel", chkEnd:"Lõpus",
+  finishCheck:"Lõpeta ja kontrolli", prev:"← Eelmine", replayL:"Alusta algusest"
  }
 };
 
@@ -211,12 +290,27 @@ const store = {
   save(k,v){ try{ localStorage.setItem("opi."+k, JSON.stringify(v)); }catch(e){} }
 };
 const P = {
-  lang: store.load("lang","et"),
+  lang: "et",
   unlocked: store.load("unlocked",[]),
   opts: Object.assign({mode:"mc",count:"10",random:false}, store.load("opts",{})),
-  stats: store.load("stats",{})
+  stats: store.load("stats",{}),
+  dev: store.load("dev",false),
+  custom: store.load("custom",[]),
+  extra: store.load("extraSongs",[]),
+  hidden: store.load("hiddenSongs",[]),
+  qstats: store.load("qstats",{}),
+  last: store.load("last","music"),
+  alt: store.load("altLinks",{}),
+  theme: store.load("theme","light")
 };
 if(!I18N[P.lang]) P.lang="et";
+const DEV_HASH = "2bf5pdwtahy";
+const songs = () => SONGS.filter(s=>!P.hidden.includes(s.id)).map(s=>Object.assign({},s,{alt:(s.alt||[]).concat(P.alt[s.id]||[])})).concat(P.extra.map(s=>Object.assign({},s,{alt:P.alt[s.id]||[]})));
+const allSubjects = () => SUBJECTS.concat(P.custom.map(c=>Object.assign({custom:true,always:false},c)));
+const subjName = s => (s.name && (s.name[P.lang] || s.name.et || s.name.en)) || "?";
+const descOf = s => s.id==="music" ? t("nSongs",{n:songs().length}) : s.custom ? t("nItems",{n:s.items.length}) : (s.desc ? s.desc[P.lang] : "");
+const PAL=[["#e4e4e7","#9e1b2a"]];
+const pal = s => PAL[0];
 const t=(k,v)=>String((I18N[P.lang][k] ?? I18N.et[k] ?? k)).replace(/\{(\w+)\}/g,(m,n)=>v&&v[n]!==undefined?v[n]:m);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
@@ -285,8 +379,9 @@ function onYtState(e){
     return;
   }
   const q=clip.q; if(!q) return;
+  if(e.data===S_.CUED && !clip.began){ try{ yt.player.playVideo(); }catch(_){} return; }
   if(e.data===S_.PLAYING && !clip.began){
-    clip.began=true;
+    clip.began=true; clearTimeout(clip.wd);
     if(q.start==null){
       let st=0;
       if(P.opts.random){
@@ -301,11 +396,19 @@ function onYtState(e){
 }
 function onYtError(e){
   if(yt.waiter){ const w=yt.waiter; yt.waiter=null; w.resolve({ok:false,err:e.data}); return; }
-  stopClip(true);
+  const q=clip.q;
+  if(q && Array.isArray(q.song.alt) && (q.altIdx||0)<q.song.alt.length){   // try a backup upload of the same song
+    q.vid=q.song.alt[q.altIdx||0]; q.altIdx=(q.altIdx||0)+1; clip.began=false;
+    setStatus("loading");
+    try{ yt.player.loadVideoById({videoId:q.vid,startSeconds:q.start||0}); }catch(_){}
+    return;
+  }
+  clearTimeout(clip.wd); stopClip(true);
   clip.err=true; setStatus("errv",{c:e.data});
-  if(clip.q) clip.q.err=e.data;
+  if(q) q.err=e.data;
   render();
 }
+const errText=c=>({2:"vigane video id",5:"mängija viga",100:"video puudub või on privaatne",101:"omanik keelas lehel mängimise",150:"omanik keelas lehel mängimise",153:"viga mängija seadistuses"}[c]||("viga "+c));
 function startTick(){
   clearInterval(clip.timer);
   clip.timer=setInterval(()=>{
@@ -322,26 +425,37 @@ function endClip(){
   clip.progress=1; paintBar(); setStatus("done");
 }
 function stopClip(silent){
-  clearInterval(clip.timer);
+  clearInterval(clip.timer); clearTimeout(clip.wd);
   try{ if(yt.ready) yt.player.pauseVideo(); }catch(_){}
   if(!silent){ clip.q=null; }
   clip.began=false; clip.progress=0; clip.err=false;
 }
+const STATE_OF={idle:"idle",loading:"loading",playing:"playing",paused:"paused",done:"done",errv:"error",noapi:"error",wait:"idle",slow:"error"};
 function setStatus(k,v){
   clip.status=k; clip.statusVars=v||null;
+  const pl=document.querySelector(".player"); if(pl) pl.dataset.s=STATE_OF[k]||"idle";
   const el=document.getElementById("pstatus");
-  if(el){ el.textContent=t(k,v); el.className=(k==="errv"||k==="noapi"||k==="wait")?"err":""; }
+  if(el){ el.textContent=t(k,v); el.className=(k==="errv"||k==="noapi"||k==="wait"||k==="slow")?"err":""; }
 }
 function paintBar(){ const b=document.getElementById("pbar"); if(b) b.style.width=(clip.progress*100)+"%"; }
-
+function toggleClip(){
+  const q=cur(); if(!q) return;
+  if(clip.q===q && clip.status==="playing") pauseClip();
+  else if(clip.q===q && clip.status==="paused") resumeClip();
+  else if(clip.status==="loading") return;
+  else doPlay();
+}
+function pauseClip(){ clearInterval(clip.timer); try{ yt.player.pauseVideo(); }catch(_){} setStatus("paused"); }
+function resumeClip(){ try{ yt.player.playVideo(); }catch(_){} setStatus("playing"); startTick(); }
 function doPlay(){
   const q=cur(); if(!q) return;
   if(yt.failed){ setStatus("noapi"); return; }
   if(!yt.ready){ setStatus("wait"); return; }
   stopClip(true); clip.q=q; clip.began=false; clip.progress=0; clip.err=false; q.err=null; q.played=true;
   setStatus("loading"); paintBar();
-  yt.player.loadVideoById({videoId:q.song.yt,startSeconds:q.start||0});
-  const b=document.getElementById("playbtn"); if(b) b.textContent="↻";
+  clip.wd=setTimeout(()=>{ if(clip.status==="loading") setStatus("slow"); },9000);
+  yt.player.loadVideoById({videoId:q.vid||q.song.yt,startSeconds:q.start||0});
+  const rp=document.querySelector(".rp"); if(rp) rp.hidden=false;
 }
 
 /* =====================================================================
@@ -354,13 +468,13 @@ let resetArmed=false;
 const cur=()=>Q&&Q.qs[Q.i];
 
 function weakSongs(){
-  return SONGS.map(s=>{const st=P.stats[s.id]; const rec=(st&&st.recent)||[];
+  return songs().map(s=>{const st=P.stats[s.id]; const rec=(st&&st.recent)||[];
       const miss=rec.reduce((a,r)=>a+(2-r[0]-r[1]),0); return {s,miss};})
     .filter(x=>x.miss>0).sort((a,b)=>b.miss-a.miss).map(x=>x.s);
 }
 function makeQ(song){
-  const others=shuffle(SONGS.filter(s=>s.id!==song.id)).slice(0,3);
-  const comps=[...new Set(SONGS.map(s=>s.composer))].filter(c=>c!==song.composer);
+  const others=shuffle(songs().filter(s=>s.id!==song.id)).slice(0,3);
+  const comps=[...new Set(songs().map(s=>s.composer))].filter(c=>c!==song.composer);
   return {song,len:15+Math.floor(Math.random()*6),start:null,
     titleOpts:shuffle([song,...others]).map(s=>({id:s.id,label:s.title})),
     compOpts:shuffle([song.composer,...shuffle(comps).slice(0,3)]),
@@ -368,19 +482,18 @@ function makeQ(song){
 }
 function startQuiz(onlyWeak){
   const c=onlyWeak?"weak":P.opts.count;
-  let pool=c==="weak"?weakSongs():SONGS.slice();
+  let pool=c==="weak"?weakSongs():songs().slice();
   pool=shuffle(pool);
   if(c!=="all"&&c!=="weak") pool=pool.slice(0,+c);
   if(!pool.length) return;
-  Q={mode:P.opts.mode,i:0,qs:pool.map(makeQ),phase:"ask"};
+  Q={mode:P.opts.mode,checkEnd:P.opts.checkEnd==="1",i:0,qs:pool.map(makeQ),phase:"ask"};
   clip.status="idle"; go("quiz");
 }
-function checkAnswer(){
-  const q=cur();
-  if(Q.mode==="mc"){ q.res={t:q.picks.title===q.song.id,c:q.picks.composer===q.song.composer}; }
-  else { q.res={t:matchTitle(q.typed.title,q.song),c:matchComposer(q.typed.composer,q.song)}; }
-  Q.phase="reveal"; render();
+function gradeQ(q){
+  if(Q.mode==="mc") return {t:q.picks.title===q.song.id,c:q.picks.composer===q.song.composer};
+  return {t:matchTitle(q.typed.title,q.song),c:matchComposer(q.typed.composer,q.song)};
 }
+function checkAnswer(){ const q=cur(); q.res=gradeQ(q); Q.phase="reveal"; render(); }
 function commit(q){
   if(q.committed||q.skipped||!q.res) return; q.committed=true;
   const st=P.stats[q.song.id]||{n:0,t:0,c:0,recent:[]};
@@ -390,8 +503,19 @@ function commit(q){
 }
 function nextQ(){
   const q=cur(); commit(q); stopClip();
-  if(Q.i+1>=Q.qs.length){ go("results"); return; }
+  if(Q.i+1>=Q.qs.length){ if(Q.checkEnd) finishAll(); else go("results"); return; }
   Q.i++; Q.phase="ask"; clip.status="idle"; render(); window.scrollTo(0,0);
+}
+function finishAll(){
+  Q.qs.forEach(q=>{ if(!q.skipped){ if(!q.res) q.res=gradeQ(q); commit(q); } });
+  go("results");
+}
+function ovRes(i,f){
+  const q=Q.qs[i]; if(!q||!q.res||q.res[f]) return;
+  q.res[f]=true;
+  if(q.committed){ const st=P.stats[q.song.id];
+    if(st){ if(f==="t") st.t++; else st.c++; const r=st.recent&&st.recent[st.recent.length-1]; if(r) r[f==="t"?0:1]=1; store.save("stats",P.stats); } }
+  render();
 }
 
 /* ---------- link checker ---------- */
@@ -406,7 +530,7 @@ async function runCheck(){
   if(yt.failed){ alert_(t("noapi")); return; }
   if(!yt.ready){ alert_(t("wait")); return; }
   stopClip(); L.running=true; L.abort=false;
-  L.rows=SONGS.map(s=>({s,state:"wait"})); render();
+  L.rows=songs().map(s=>({s,state:"wait"})); render();
   for(const r of L.rows){
     if(L.abort) break;
     r.state="load"; render();
@@ -424,25 +548,26 @@ const $app=document.getElementById("app");
 function go(name){ if(name!=="quiz") stopClip(); if(V.name==="check"&&name!=="check") L.abort=true;
   V={name,msg:null}; resetArmed=false; render(); window.scrollTo(0,0); }
 
-const langToggle=()=>`<div class="lang" role="group" aria-label="Language">
-  <button class="${P.lang==="et"?"on":""}" data-a="lang" data-v="et">ET</button>
-  <button class="${P.lang==="en"?"on":""}" data-a="lang" data-v="en">EN</button></div>`;
-
+const langToggle=()=>`<button class="theme" data-a="theme" role="switch" aria-checked="${P.theme==="dark"}" aria-label="Tume režiim"><span class="trk"><span class="cl c1"></span><span class="cl c2"></span><span class="st s1"></span><span class="st s2"></span><span class="st s3"></span><span class="knob"><span class="cr a"></span><span class="cr b"></span></span></span></button>`;
+const HERO_SVG='<svg viewBox="0 0 120 120" width="104" height="104" aria-hidden="true"><circle cx="60" cy="62" r="46" fill="#fff" opacity=".6"/><circle cx="60" cy="62" r="34" fill="#9e1b2a"/><path d="M52 80V50l26-6v28" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="80" r="7" fill="#fff"/><circle cx="72" cy="72" r="7" fill="#fff"/><circle cx="96" cy="26" r="7" fill="#9e1b2a"/><circle cx="20" cy="40" r="5" fill="#d4d4d9"/></svg>';
 function viewHome(){
-  const subs=SUBJECTS.filter(s=>s.always||P.unlocked.includes(s.id));
-  return `<header class="top"><div><h1>${t("app")}</h1><p class="sub">${t("tag")}</p></div>${langToggle()}</header>
-  <section class="grid">${subs.map(s=>`<button class="card subj" data-a="open" data-id="${s.id}">
-     <span class="ic">${s.icon}</span><span><b>${esc(s.name[P.lang])}</b><small>${esc(s.desc[P.lang])}</small></span></button>`).join("")}</section>
-  <section class="redeem"><label for="code">${t("redeemT")}</label>
+  const subs=allSubjects().filter(s=>s.always||P.unlocked.includes(s.id)||P.dev);
+  const last=subs.find(s=>s.id===P.last)||subs[0];
+  const tile=s=>{ const c=pal(s); return `<button class="tile" data-a="open" data-id="${s.id}" style="--t-bg:${c[0]};--t-fg:${c[1]}"><span class="tic">${esc(s.icon)}</span><b>${esc(subjName(s))}</b><small>${esc(descOf(s))}</small></button>`; };
+  return `<header class="top"><h1>${t("app")}</h1>${langToggle()}</header>
+  <section class="hero"><div><h2>${t("heroT")}</h2><p>${esc(t("heroS",{n:subjName(last)}))}</p><button class="btn" data-a="hero">${t("start")}</button></div>${HERO_SVG}</section>
+  <h3 class="sec">${t("subjects")}</h3>
+  <section class="tiles">${subs.map(tile).join("")}${P.dev?`<button class="tile" data-a="dev" style="--t-fg:#9e1b2a"><span class="tic">⚙</span><b>Developer</b><small>Subjects, songs, backup</small></button>`:""}</section>
+  <section class="redeem card"><label for="code">${t("redeemT")}</label>
     <div class="row"><input id="code" type="text" placeholder="${t("redeemPh")}" autocomplete="off" autocapitalize="characters" spellcheck="false">
     <button class="btn" data-a="redeem">${t("redeem")}</button></div>
     ${V.msg?`<p class="msg ${V.msg.k}">${esc(V.msg.t)}</p>`:""}
     <p class="hint">${t("redeemH")}</p></section>`;
 }
 function viewSoon(){
-  const s=SUBJECTS.find(x=>x.id===V.sub);
+  const s=allSubjects().find(x=>x.id===V.sub);
   return `<div class="nav"><button class="link" data-a="home">${t("back")}</button>${langToggle()}</div>
-  <h2>${esc(s.name[P.lang])}</h2>
+  <h2>${esc(subjName(s))}</h2>
   <div class="card center" style="margin-top:18px;padding:30px 16px"><div class="ic" style="margin:0 auto 12px">${s.icon}</div>
   <b>${t("soon")}</b><p class="hint">${t("soonH")}</p></div>`;
 }
@@ -455,41 +580,48 @@ function viewMusic(){
   return `<div class="nav"><button class="link" data-a="home">${t("back")}</button>${langToggle()}</div>
   <h2>${t("music")}</h2><p class="sub">${t("clipInfo")}</p>
   <div class="set"><h3>${t("how")}</h3>${seg("mode",[["mc",t("mc")],["type",t("type")]],P.opts.mode)}</div>
-  <div class="set"><h3>${t("nq")}</h3>${seg("count",[["5","5"],["10","10"],["all",t("all")+" ("+SONGS.length+")"],["weak",t("weak")+(wk?" ("+wk+")":"")]],count,wk?null:["weak"])}</div>
+  <div class="set"><h3>${t("nq")}</h3>${seg("count",[["5","5"],["10","10"],["all",t("all")+" ("+songs().length+")"],["weak",t("weak")+(wk?" ("+wk+")":"")]],count,wk?null:["weak"])}</div>
+  <div class="set"><h3>${t("checkT")}</h3>${seg("checkEnd",[["0",t("chkEach")],["1",t("chkEnd")]],P.opts.checkEnd||"0")}</div>
   <div class="set"><button class="switch ${P.opts.random?"on":""}" data-a="toggle"><span>${t("rnd")}</span><i></i></button></div>
-  <button class="btn big" data-a="start">${t("start")}</button>
+  <button class="btn big cta" data-a="start">${t("start")}</button>
   <div class="links"><button class="link" data-a="progress">${t("progress")}</button><button class="link" data-a="check">${t("check")}</button></div>`;
 }
 function viewQuiz(){
-  const q=cur(), n=Q.qs.length;
+  const q=cur(), n=Q.qs.length, last=Q.i+1>=n;
   const dots=Q.qs.map((x,i)=>`<i class="${i<Q.i?"d":i===Q.i?"c":""}"></i>`).join("");
-  let body="";
-  const playLabel=q.played?"↻":"▶";
+  const st=q.err?"error":(STATE_OF[clip.status]||"idle");
   const status=q.err?t("errv",{c:q.err}):t(clip.status,clip.statusVars);
-  const bad=q.err||clip.status==="noapi"||clip.status==="wait";
-  const player=`<div class="card player"><button class="play" id="playbtn" data-a="play" aria-label="${t("play")}">${playLabel}</button>
-    <div class="pmeta"><div id="pstatus" class="${bad?"err":""}">${esc(status)}</div><div class="bar"><i id="pbar" style="width:${clip.progress*100}%"></i></div></div></div>`;
-  const ytLink=`https://www.youtube.com/watch?v=${q.song.yt}`;
+  const bad=q.err||clip.status==="noapi"||clip.status==="wait"||clip.status==="slow";
+  const player=`<div class="card player" data-s="${st}"><button class="play" id="playbtn" data-a="ptoggle" aria-label="${t("play")}"><span class="ring"></span><span class="ring r2"></span>
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path class="i-play" d="M8 5.2v13.6a1 1 0 0 0 1.5.86l11-6.8a1 1 0 0 0 0-1.72l-11-6.8A1 1 0 0 0 8 5.2z"/><g class="i-pause"><rect x="6.2" y="4.8" width="4.2" height="14.4" rx="1.4"/><rect x="13.6" y="4.8" width="4.2" height="14.4" rx="1.4"/></g><path class="i-replay" d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg></button>
+    <div class="pmeta"><div id="pstatus" class="${bad?"err":""}">${esc(status)}</div><div class="bar"><i id="pbar" style="width:${clip.progress*100}%"></i></div></div>
+    <div class="eq"><i></i><i></i><i></i><i></i></div><button class="rp" data-a="replay" aria-label="${t("replayL")}" ${q.played?"":"hidden"}>↻</button></div>`;
+  const ytLink=`https://www.youtube.com/watch?v=${q.vid||q.song.yt}`;
+  let body="";
   if(Q.phase==="ask"){
     if(Q.mode==="mc"){
-      body=`<div class="grp"><h3>${t("title")}</h3><div class="opts">${q.titleOpts.map((o,i)=>`<button class="opt ${q.picks.title===o.id?"sel":""}" data-a="pick" data-f="title" data-i="${i}">${esc(o.label)}</button>`).join("")}</div></div>
-      <div class="grp"><h3>${t("composer")}</h3><div class="opts">${q.compOpts.map((o,i)=>`<button class="opt ${q.picks.composer===o?"sel":""}" data-a="pick" data-f="composer" data-i="${i}">${esc(o)}</button>`).join("")}</div></div>
-      <button class="btn big" data-a="check-ans" ${q.picks.title&&q.picks.composer?"":"disabled"}>${t("ans")}</button>`;
+      body=`<div class="grp"><h3>${t("title")}</h3><div class="opts">${q.titleOpts.map((o,i)=>`<button class="opt ${q.picks.title===o.id?"sel":""}" data-a="pick" data-f="title" data-i="${i}"><span class="let">${"ABCD"[i]}</span>${esc(o.label)}</button>`).join("")}</div></div>
+      <div class="grp"><h3>${t("composer")}</h3><div class="opts">${q.compOpts.map((o,i)=>`<button class="opt ${q.picks.composer===o?"sel":""}" data-a="pick" data-f="composer" data-i="${i}"><span class="let">${"ABCD"[i]}</span>${esc(o)}</button>`).join("")}</div></div>`;
     } else {
       body=`<div class="grp"><div class="field"><label for="f-title">${t("title")}</label><input id="f-title" data-f="title" type="text" value="${esc(q.typed.title)}" autocomplete="off" autocorrect="off" spellcheck="false"></div>
-      <div class="field"><label for="f-composer">${t("composer")}</label><input id="f-composer" data-f="composer" type="text" value="${esc(q.typed.composer)}" autocomplete="off" autocorrect="off" spellcheck="false"></div></div>
-      <button class="btn big" data-a="check-ans">${t("ans")}</button>`;
+      <div class="field"><label for="f-composer">${t("composer")}</label><input id="f-composer" data-f="composer" type="text" value="${esc(q.typed.composer)}" autocomplete="off" autocorrect="off" spellcheck="false"></div></div>`;
     }
     if(q.err) body+=`<div class="row" style="margin-top:12px"><a class="btn ghost" style="flex:1;text-align:center;text-decoration:none" href="${ytLink}" target="_blank" rel="noopener">${t("openyt")}</a><button class="btn ghost" style="flex:1" data-a="skip">${t("skip")}</button></div>`;
+    if(Q.checkEnd){
+      if(Q.i>0) body+=`<button class="btn ghost sm" data-a="prev">${t("prev")}</button>`;
+      body+=`<button class="btn big cta" data-a="next-ans">${last?t("finishCheck"):t("next")}</button>`;
+    } else {
+      const ready=Q.mode!=="mc"||(q.picks.title&&q.picks.composer);
+      body+=`<button class="btn big cta" data-a="check-ans" ${ready?"":"disabled"}>${t("ans")}</button>`;
+    }
   } else {
     const part=(label,ok,correct,yours,f)=>`<div class="part ${ok?"ok":"bad"}"><span class="tag">${ok?"✓ "+t("right"):"✗ "+t("wrong")}</span><small>${label}</small><b>${esc(correct)}</b>
       ${!ok?`<div class="yours">${t("yours")}: ${esc(yours||t("empty"))}</div>${Q.mode==="type"?`<button class="mini" data-a="override" data-f="${f}">${t("iwas")}</button>`:""}`:""}</div>`;
     const yT=Q.mode==="mc"?(q.titleOpts.find(o=>o.id===q.picks.title)||{}).label:q.typed.title;
     const yC=Q.mode==="mc"?q.picks.composer:q.typed.composer;
-    const last=Q.i+1>=n;
     body=`<div class="res">${part(t("title"),q.res.t,fullTitle(q.song),yT,"t")}${part(t("composer"),q.res.c,q.song.composer,yC,"c")}</div>
-      <a class="link" style="display:inline-block;margin-top:12px" href="${ytLink}" target="_blank" rel="noopener">${t("openyt")} ↗</a>
-      <button class="btn big" data-a="next" style="margin-top:6px">${last?t("finish"):t("next")}</button>`;
+      <a class="link" style="display:inline-block;margin-top:14px" href="${ytLink}" target="_blank" rel="noopener">${t("openyt")} ↗</a>
+      <button class="btn big cta" data-a="next" style="margin-top:6px">${last?t("finish"):t("next")}</button>`;
   }
   return `<div class="nav"><button class="link" data-a="music">${t("quit")}</button>${langToggle()}</div>
   <div class="qhead"><span>${t("q",{i:Q.i+1,n})}</span></div><div class="dots">${dots}</div>${player}${body}`;
@@ -498,17 +630,22 @@ function viewResults(){
   const qs=Q.qs.filter(q=>!q.skipped), n=qs.length;
   const tt=qs.filter(q=>q.res&&q.res.t).length, cc=qs.filter(q=>q.res&&q.res.c).length;
   const wk=weakSongs().length;
-  const pill=ok=>`<span class="pill ${ok?"ok":"bad"}">${ok?"✓":"✗"}</span>`;
+  const yT=q=>Q.mode==="mc"?(q.titleOpts.find(o=>o.id===q.picks.title)||{}).label:q.typed.title;
+  const yC=q=>Q.mode==="mc"?q.picks.composer:q.typed.composer;
+  const line=(q,i,f,label,correct,yours)=>{ const ok=q.res&&q.res[f];
+    return `<div class="rl ${ok?"ok":"bad"}"><i>${ok?"✓":"✗"}</i><div><small>${label}</small><b>${esc(correct)}</b>${!ok?`<span class="yr">${t("yours")}: ${esc(yours||t("empty"))}</span>${Q.mode==="type"?`<button class="mini" data-a="ov" data-i="${i}" data-f="${f}">${t("iwas")}</button>`:""}`:""}</div></div>`; };
+  const rows=Q.qs.map((q,i)=>q.skipped
+    ? `<div class="item"><div class="t"><b>${esc(q.song.title)}</b><small>${esc(q.song.composer)}</small></div><span class="pill na">${t("skipped")}</span></div>`
+    : `<div class="card rv">${line(q,i,"t",t("title"),fullTitle(q.song),yT(q))}${line(q,i,"c",t("composer"),q.song.composer,yC(q))}</div>`).join("");
   return `<div class="nav"><button class="link" data-a="home">${t("home")}</button>${langToggle()}</div>
   <h2>${t("res")}</h2><div class="score">${tt+cc} / ${n*2}</div>
   <p class="sub">${t("titles")}: ${tt}/${n} · ${t("composers")}: ${cc}/${n}</p>
-  <div class="list">${Q.qs.map(q=>`<div class="item"><div class="t"><b>${esc(q.song.title)}</b><small>${esc(q.song.composer)}</small></div>
-    <div class="pills">${q.skipped?`<span class="pill na">${t("skipped")}</span>`:pill(q.res&&q.res.t)+pill(q.res&&q.res.c)}</div></div>`).join("")}</div>
-  <button class="btn big" data-a="start">${t("again")}</button>
+  <div class="list">${rows}</div>
+  <button class="btn big cta" data-a="start">${t("again")}</button>
   ${wk?`<button class="btn big ghost" data-a="start-weak">${t("weakOnly")} (${wk})</button>`:""}`;
 }
 function viewProgress(){
-  const rows=SONGS.map(s=>{const st=P.stats[s.id]; const n=st?st.n:0;
+  const rows=songs().map(s=>{const st=P.stats[s.id]; const n=st?st.n:0;
     const tp=n?Math.round(100*st.t/n):0, cp=n?Math.round(100*st.c/n):0;
     const isWeak=weakSongs().some(w=>w.id===s.id);
     return `<div class="item" style="display:block"><div style="display:flex;justify-content:space-between;gap:8px"><b>${esc(s.title)}${isWeak?`<span class="weakb">${t("weakBadge")}</span>`:""}</b><small style="color:var(--muted);white-space:nowrap">${n?n+" "+t("tries"):t("noData")}</small></div>
@@ -520,8 +657,8 @@ function viewProgress(){
   <button class="btn big ghost" data-a="reset">${resetArmed?t("sure"):t("reset")}</button>`;
 }
 function viewCheck(){
-  const lab=r=>r.state==="ok"?`<span class="pill ok">${t("okL")}</span>`:r.state==="bad"?`<span class="pill bad">${t("badL")}${r.err?" ("+esc(r.err)+")":""}</span>`:`<span class="pill na">${t(r.state==="load"?"loadL":"waitL")}</span>`;
-  const rows=(L.rows.length?L.rows:SONGS.map(s=>({s,state:"wait"}))).map(r=>`<div class="item" style="align-items:flex-start"><div class="t" style="white-space:normal"><b style="white-space:normal">${esc(r.s.title)}</b>
+  const lab=r=>r.state==="ok"?`<span class="pill ok">${t("okL")}</span>`:r.state==="bad"?`<span class="pill bad">${t("badL")}${r.err?" · "+esc(errText(r.err)):""}</span>`:`<span class="pill na">${t(r.state==="load"?"loadL":"waitL")}</span>`;
+  const rows=(L.rows.length?L.rows:songs().map(s=>({s,state:"wait"}))).map(r=>`<div class="item" style="align-items:flex-start"><div class="t" style="white-space:normal"><b style="white-space:normal">${esc(r.s.title)}</b>
     <small>${t("expected")}: ${esc(r.s.composer)}</small>${r.title?`<br><small>▶ ${esc(r.title)}${r.author?" — "+esc(r.author):""}</small>`:""}
     <br><small><a href="https://www.youtube.com/watch?v=${r.s.yt}" target="_blank" rel="noopener" style="color:var(--teal)">${r.s.yt}</a></small></div><div class="pills">${L.rows.length?lab(r):""}</div></div>`).join("");
   return `<div class="nav"><button class="link" data-a="music">${t("back")}</button>${langToggle()}</div>
@@ -539,9 +676,16 @@ function render(){
   else if(v==="results") html=viewResults();
   else if(v==="progress") html=viewProgress();
   else if(v==="check") html=viewCheck();
+  else if(v==="dev") html=viewDev();
+  else if(v==="subj-edit") html=viewSubjEdit();
+  else if(v==="songs") html=viewSongs();
+  else if(v==="qa") html=viewQA();
+  else if(v==="qa-quiz") html=viewQAQuiz();
+  else if(v==="qa-results") html=viewQAResults();
   const active=document.activeElement, fid=active&&active.id, pos=active&&active.selectionStart;
   $app.innerHTML=html;
   document.documentElement.lang=P.lang;
+  const qi=document.getElementById("qa-in"); if(qi&&!fid){ qi.focus(); }
   if(fid){ const el=document.getElementById(fid); if(el&&el.tagName==="INPUT"){ el.focus(); try{el.setSelectionRange(pos,pos);}catch(_){} } }
 }
 
@@ -549,20 +693,337 @@ function render(){
    Events
    ===================================================================== */
 function redeem(){
-  const inp=document.getElementById("code"); const raw=inp?inp.value:"";
-  if(!raw.trim()) return;
+  const inp=document.getElementById("code"); const raw=inp?inp.value.trim():"";
+  if(!raw) return;
+  if(raw.startsWith("OPI1:")){ importPack(raw); render(); return; }
   const h=codeHash(raw);
-  const s=SUBJECTS.find(x=>x.codeHash===h);
+  if(h===DEV_HASH){
+    if(P.dev) V.msg={k:"bad",t:t("rDup")};
+    else { P.dev=true; store.save("dev",true); V.msg={k:"ok",t:t("devOn")}; }
+    render(); return;
+  }
+  const s=allSubjects().find(x=>x.codeHash===h);
   if(!s) V.msg={k:"bad",t:t("rBad")};
   else if(P.unlocked.includes(s.id)) V.msg={k:"bad",t:t("rDup")};
-  else { P.unlocked.push(s.id); store.save("unlocked",P.unlocked); V.msg={k:"ok",t:t("rOk",{n:s.name[P.lang]})}; }
+  else { P.unlocked.push(s.id); store.save("unlocked",P.unlocked); V.msg={k:"ok",t:t("rOk",{n:subjName(s)})}; }
   render();
 }
+
+/* ---------- share packs: a subject as text a friend can paste into the code box ---------- */
+function makePack(s){
+  const o={v:1,s:{name:s.name,icon:s.icon,code:s.code,strict:!!s.strict,items:s.items}};
+  return "OPI1:"+btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+}
+function upsertCustom(sub){
+  const i=P.custom.findIndex(c=>c.codeHash===sub.codeHash);
+  if(i>=0){ sub.id=P.custom[i].id; P.custom[i]=sub; } else P.custom.push(sub);
+  if(!P.unlocked.includes(sub.id)) P.unlocked.push(sub.id);
+  store.save("custom",P.custom); store.save("unlocked",P.unlocked);
+}
+function importPack(raw){
+  try{
+    const o=JSON.parse(decodeURIComponent(escape(atob(raw.slice(5))))); const s=o.s;
+    const code=String(s.code||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+    const items=(s.items||[]).filter(i=>i&&i.q&&i.a).map(i=>({q:String(i.q).slice(0,300),a:String(i.a).slice(0,300)}));
+    if(code.length<4||items.length<2||codeHash(code)===DEV_HASH) throw new Error("bad");
+    const sub={id:"p"+codeHash(code),
+      name:{et:String((s.name&&s.name.et)||(s.name&&s.name.en)||"?").slice(0,60),en:String((s.name&&s.name.en)||(s.name&&s.name.et)||"?").slice(0,60)},
+      icon:String(s.icon||"?").slice(0,2),code,codeHash:codeHash(code),type:"qa",strict:!!s.strict,items};
+    upsertCustom(sub); V.msg={k:"ok",t:t("rOk",{n:subjName(sub)})};
+  }catch(e){ V.msg={k:"bad",t:t("rBad")}; }
+}
+
+/* ---------- generic question/answer subjects ---------- */
+let QZ=null;
+const splitAlts=a=>String(a).split("/").map(x=>x.trim()).filter(Boolean);
+function qaNorm(s,strict){
+  s=String(s||"").toLowerCase().normalize(strict?"NFC":"NFD");
+  if(!strict) s=s.replace(/[̀-ͯ]/g,"");
+  return s.replace(/[^\p{L}\p{N}]+/gu," ").trim();
+}
+function qaMatch(input,answers,strict){
+  const a=qaNorm(input,strict); if(!a) return false;
+  return answers.some(c=>{ c=qaNorm(c,strict); if(a===c) return true; if(strict) return false;
+    const L=Math.max(a.length,c.length), tl=L<=5?0:L<=9?1:2; return lev(a,c)<=tl; });
+}
+function qaWeakCount(sub){
+  const st=P.qstats[sub.id]||{};
+  return sub.items.filter(it=>((st[it.q]||{}).recent||[]).some(r=>r===0)).length;
+}
+function startQA(subId,weakOnly){
+  const sub=allSubjects().find(s=>s.id===subId); if(!sub) return;
+  const dir=P.opts.qadir||"qa";
+  let pool=sub.items.map(it=>({it,key:it.q}));
+  if(weakOnly){ const st=P.qstats[subId]||{}; pool=pool.filter(x=>((st[x.key]||{}).recent||[]).some(r=>r===0)); }
+  pool=shuffle(pool);
+  const c=P.opts.qacount||"10";
+  if(!weakOnly&&c!=="all"&&c!=="weak") pool=pool.slice(0,+c);
+  if(!pool.length) return;
+  QZ={sub,mode:P.opts.mode,dir,checkEnd:P.opts.checkEnd==="1",i:0,phase:"ask",qs:pool.map(x=>{
+    const answers=dir==="qa"?splitAlts(x.it.a):[x.it.q];
+    const prompt=dir==="qa"?x.it.q:splitAlts(x.it.a)[0];
+    const others=[...new Set(shuffle(sub.items.filter(o=>o!==x.it)).map(o=>dir==="qa"?splitAlts(o.a)[0]:o.q))]
+      .filter(v=>v!==answers[0]).slice(0,3);
+    return {key:x.key,prompt,answers,correctLabel:dir==="qa"?x.it.a:x.it.q,
+      opts:shuffle([answers[0],...others]),pick:null,typed:"",res:null,committed:false};
+  })};
+  go("qa-quiz");
+}
+const qaGrade=q=>QZ.mode==="mc"?q.pick===q.answers[0]:qaMatch(q.typed,q.answers,!!QZ.sub.strict);
+function qaCheck(){
+  if(!QZ||QZ.phase!=="ask") return;
+  const q=QZ.qs[QZ.i]; q.res=qaGrade(q); QZ.phase="reveal"; render();
+}
+function qaCommit(q){
+  if(q.committed||q.res===null) return; q.committed=true;
+  const m=P.qstats[QZ.sub.id]||(P.qstats[QZ.sub.id]={});
+  const st=m[q.key]||(m[q.key]={n:0,ok:0,recent:[]});
+  st.n++; if(q.res) st.ok++; st.recent=st.recent.concat([q.res?1:0]).slice(-3);
+  store.save("qstats",P.qstats);
+}
+function qaFinishAll(){
+  QZ.qs.forEach(q=>{ if(q.res===null) q.res=qaGrade(q); qaCommit(q); });
+  go("qa-results");
+}
+function qaNext(){
+  const q=QZ.qs[QZ.i]; qaCommit(q);
+  if(QZ.i+1>=QZ.qs.length){ go("qa-results"); return; }
+  QZ.i++; QZ.phase="ask"; render(); window.scrollTo(0,0);
+}
+function qaOv(i){
+  const q=QZ.qs[i]; if(!q||q.res) return; q.res=true;
+  if(q.committed){ const st=(P.qstats[QZ.sub.id]||{})[q.key];
+    if(st){ st.ok++; if(st.recent.length) st.recent[st.recent.length-1]=1; store.save("qstats",P.qstats); } }
+  render();
+}
+function viewQA(){
+  const sub=allSubjects().find(s=>s.id===V.sub); if(!sub) return viewHome();
+  const wk=qaWeakCount(sub); let c=P.opts.qacount||"10"; if(c==="weak"&&!wk) c="10";
+  return `<div class="nav"><button class="link" data-a="home">${t("back")}</button>${langToggle()}</div>
+  <h2>${esc(subjName(sub))}</h2><p class="sub">${t("nItems",{n:sub.items.length})}</p>
+  <div class="set"><h3>${t("how")}</h3>${seg("mode",[["mc",t("mc")],["type",t("type")]],P.opts.mode)}</div>
+  <div class="set"><h3>${t("dirT")}</h3>${seg("qadir",[["qa",t("dirQA")],["aq",t("dirAQ")]],P.opts.qadir||"qa")}</div>
+  <div class="set"><h3>${t("nq")}</h3>${seg("qacount",[["10","10"],["20","20"],["all",t("all")],["weak",t("weak")+(wk?" ("+wk+")":"")]],c,wk?null:["weak"])}</div>
+  <div class="set"><h3>${t("checkT")}</h3>${seg("checkEnd",[["0",t("chkEach")],["1",t("chkEnd")]],P.opts.checkEnd||"0")}</div>
+  <button class="btn big cta" data-a="qa-start" data-id="${sub.id}" data-weak="${c==="weak"?1:0}">${t("start")}</button>`;
+}
+function viewQAQuiz(){
+  const q=QZ.qs[QZ.i], n=QZ.qs.length, last=QZ.i+1>=n;
+  const dots=QZ.qs.map((x,i)=>`<i class="${i<QZ.i?"d":i===QZ.i?"c":""}"></i>`).join("");
+  let body;
+  if(QZ.phase==="ask"){
+    body=QZ.mode==="mc"
+      ? `<div class="opts" style="margin-top:14px">${q.opts.map((o,i)=>`<button class="opt ${q.pick===o?"sel":""}" data-a="qa-pick" data-i="${i}"><span class="let">${"ABCD"[i]}</span>${esc(o)}</button>`).join("")}</div>`
+      : `<div class="field" style="margin-top:14px"><input id="qa-in" type="text" value="${esc(q.typed)}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></div>`;
+    if(QZ.checkEnd){
+      if(QZ.i>0) body+=`<button class="btn ghost sm" data-a="qa-prev">${t("prev")}</button>`;
+      body+=`<button class="btn big cta" data-a="qa-nextans">${last?t("finishCheck"):t("next")}</button>`;
+    } else {
+      body+=`<button class="btn big cta" data-a="qa-check" ${QZ.mode==="mc"&&q.pick===null?"disabled":""}>${t("ans")}</button>`;
+    }
+  } else {
+    const yours=QZ.mode==="mc"?q.pick:q.typed;
+    body=`<div class="res"><div class="part ${q.res?"ok":"bad"}"><span class="tag">${q.res?"✓ "+t("right"):"✗ "+t("wrong")}</span><small>${t("correctAns")}</small><b>${esc(q.correctLabel)}</b>
+      ${!q.res?`<div class="yours">${t("yours")}: ${esc(yours||t("empty"))}</div>${QZ.mode==="type"?`<button class="mini" data-a="qa-override">${t("iwas")}</button>`:""}`:""}</div></div>
+      <button class="btn big cta" data-a="qa-next">${last?t("finish"):t("next")}</button>`;
+  }
+  return `<div class="nav"><button class="link" data-a="qa-quit" data-id="${QZ.sub.id}">${t("quit")}</button>${langToggle()}</div>
+  <div class="qhead"><span>${esc(subjName(QZ.sub))} · ${t("q",{i:QZ.i+1,n})}</span></div><div class="dots">${dots}</div>
+  <div class="card center" style="padding:28px 16px"><div class="bigq">${esc(q.prompt)}</div></div>${body}`;
+}
+function viewQAResults(){
+  const n=QZ.qs.length, ok=QZ.qs.filter(q=>q.res).length, wk=qaWeakCount(QZ.sub);
+  const rows=QZ.qs.map((q,i)=>{ const yours=QZ.mode==="mc"?q.pick:q.typed;
+    return `<div class="card rv"><div class="rl ${q.res?"ok":"bad"}"><i>${q.res?"✓":"✗"}</i><div><small>${esc(q.prompt)}</small><b>${esc(q.correctLabel)}</b>
+      ${!q.res?`<span class="yr">${t("yours")}: ${esc(yours||t("empty"))}</span>${QZ.mode==="type"?`<button class="mini" data-a="qa-ov" data-i="${i}">${t("iwas")}</button>`:""}`:""}</div></div></div>`; }).join("");
+  return `<div class="nav"><button class="link" data-a="home">${t("home")}</button>${langToggle()}</div>
+  <h2>${t("res")}</h2><div class="score">${ok} / ${n}</div><p class="sub">${esc(subjName(QZ.sub))}</p>
+  <div class="list">${rows}</div>
+  <button class="btn big cta" data-a="qa-start" data-id="${QZ.sub.id}" data-weak="0">${t("again")}</button>
+  ${wk?`<button class="btn big ghost" data-a="qa-start" data-id="${QZ.sub.id}" data-weak="1">${t("weakOnly")} (${wk})</button>`:""}`;
+}
+
+/* ---------- developer mode (English only; saved on this device) ---------- */
+function copyText(text){
+  const fail=()=>{ V.copy=text; render(); };
+  try{ navigator.clipboard.writeText(text).then(()=>{ V.msg={k:"ok",t:"Copied to clipboard."}; render(); },fail); }catch(e){ fail(); }
+}
+const chip=(l,a,id)=>`<button class="chip" data-a="${a}" data-id="${id}">${l}</button>`;
+function viewDev(){
+  const row=s=>{
+    const isC=!!s.custom, un=s.always||P.unlocked.includes(s.id);
+    const status=isC?`custom · ${s.items.length} items · code ${esc(s.code)}`:s.always?"built-in · always visible":`built-in · placeholder · ${un?"unlocked":"locked"}`;
+    const b=[];
+    if(!s.always&&!isC) b.push(chip(un?"Lock":"Unlock","dev-toggle",s.id));
+    if(isC){ b.push(chip("Edit","subj-edit",s.id),chip("Share pack","pack",s.id),chip(V.delArm===s.id?"Sure?":"Delete","subj-del",s.id)); }
+    b.push(chip("Open","open",s.id));
+    return `<div class="item" style="align-items:flex-start"><div class="t" style="white-space:normal"><b style="white-space:normal">${esc(subjName(s))}</b><small>${status}</small></div><div class="pills" style="flex-wrap:wrap;justify-content:flex-end;max-width:58%">${b.join("")}</div></div>`;
+  };
+  return `<div class="nav"><button class="link" data-a="home">${t("back")}</button>${langToggle()}</div>
+  <h2>Developer mode</h2><p class="sub">Everything here is saved on this device only. To give a subject to friends, use “Share pack” and send them the text — they paste it into the code box.</p>
+  ${V.msg?`<p class="msg ${V.msg.k}">${esc(V.msg.t)}</p>`:""}
+  ${V.copy!==undefined?`<div class="card" style="margin-top:12px"><b>Select all and copy this text</b><textarea id="copybox" class="ta" readonly rows="5" onfocus="this.select()">${esc(V.copy)}</textarea></div>`:""}
+  <div class="set"><h3>Subjects</h3><div class="list">${allSubjects().map(row).join("")}</div>
+    <button class="btn big" data-a="subj-new">+ New subject</button></div>
+  <div class="set"><h3>Music</h3><button class="btn big ghost" data-a="songs" style="margin-top:0">Edit song list (${songs().length} songs)</button></div>
+  <div class="set"><h3>Data</h3>
+    <div class="row" style="flex-wrap:wrap">
+      <button class="chip" data-a="backup">Copy backup</button>
+      <button class="chip" data-a="relock">Re-lock all subjects</button>
+      <button class="chip" data-a="reset-all">${V.armReset?"Sure? Tap again":"Reset all progress"}</button>
+      <button class="chip" data-a="dev-off">Turn off developer mode</button></div>
+    <div class="field" style="margin-top:14px"><label for="restore">Restore from backup (paste here)</label><textarea id="restore" class="ta" rows="3"></textarea></div>
+    <button class="btn ghost" style="margin-top:8px" data-a="restore">Restore</button></div>`;
+}
+function parseItems(text){
+  const items=[],bad=[];
+  text.split(/\r?\n/).forEach((ln,i)=>{
+    ln=ln.trim(); if(!ln) return;
+    let k=ln.indexOf("\t"); if(k<0) k=ln.indexOf(";");
+    if(k<0){ bad.push(i+1); return; }
+    const q=ln.slice(0,k).trim(), a=ln.slice(k+1).trim();
+    if(!q||!a){ bad.push(i+1); return; }
+    items.push({q,a});
+  });
+  return {items,bad};
+}
+function viewSubjEdit(){
+  const f=V.form;
+  return `<div class="nav"><button class="link" data-a="dev">← Developer</button></div>
+  <h2>${f.id?"Edit subject":"New subject"}</h2>
+  ${V.msg?`<p class="msg ${V.msg.k}">${esc(V.msg.t)}</p>`:""}
+  <div class="field" style="margin-top:12px"><label for="f-nameEt">Name (Estonian)</label><input id="f-nameEt" data-g="nameEt" type="text" value="${esc(f.nameEt)}" autocomplete="off"></div>
+  <div class="field"><label for="f-nameEn">Name (English)</label><input id="f-nameEn" data-g="nameEn" type="text" value="${esc(f.nameEn)}" autocomplete="off"></div>
+  <div class="field"><label for="f-icon">Icon (1–2 characters, optional)</label><input id="f-icon" data-g="icon" type="text" maxlength="2" value="${esc(f.icon)}" autocomplete="off"></div>
+  <div class="field"><label for="f-code">Unlock code (letters/numbers, at least 4)</label><input id="f-code" data-g="code" type="text" value="${esc(f.code)}" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
+  <div class="set"><button class="switch ${f.strict?"on":""}" data-a="strict"><span>Strict spelling: accents must match (good for Spanish)</span><i></i></button></div>
+  <div class="field" style="margin-top:14px"><label for="f-text">Questions — one per line: <code>question ; answer</code></label>
+    <textarea id="f-text" class="ta" data-g="text" rows="12" placeholder="casa ; house&#10;perro ; dog&#10;gato ; cat / kitten">${esc(f.text)}</textarea></div>
+  <p class="hint">Several accepted answers: separate them with <code>/</code>. Pasting from Excel or Sheets also works (two columns).</p>
+  <button class="btn big cta" data-a="subj-save">Save subject</button>`;
+}
+function saveSubject(){
+  const f=V.form, {items,bad}=parseItems(f.text);
+  const code=f.code.toUpperCase().replace(/[^A-Z0-9]/g,""), h=codeHash(code);
+  let err=null;
+  if(!f.nameEt.trim()&&!f.nameEn.trim()) err="Give the subject a name.";
+  else if(code.length<4) err="The code needs at least 4 letters or numbers.";
+  else if(h===DEV_HASH||SUBJECTS.some(s=>s.codeHash===h)||P.custom.some(c=>c.codeHash===h&&c.id!==f.id)) err="That code is already used.";
+  else if(bad.length) err="These lines have no ';' or an empty side: "+bad.join(", ");
+  else if(items.length<2) err="Add at least 2 questions.";
+  if(err){ V.msg={k:"bad",t:err}; render(); window.scrollTo(0,0); return; }
+  const nm=(f.nameEt.trim()||f.nameEn.trim());
+  const sub={id:f.id||"c"+Date.now().toString(36),
+    name:{et:f.nameEt.trim()||f.nameEn.trim(),en:f.nameEn.trim()||f.nameEt.trim()},
+    icon:(f.icon.trim()||nm[0]||"?").slice(0,2).toUpperCase(),code,codeHash:h,type:"qa",strict:!!f.strict,items};
+  const i=P.custom.findIndex(c=>c.id===sub.id); if(i>=0) P.custom[i]=sub; else P.custom.push(sub);
+  if(!P.unlocked.includes(sub.id)) P.unlocked.push(sub.id);
+  store.save("custom",P.custom); store.save("unlocked",P.unlocked);
+  go("dev"); V.msg={k:"ok",t:"Saved “"+subjName(sub)+"” with "+items.length+" questions. Unlock code: "+code}; render();
+}
+function ytId(s){
+  s=String(s||"").trim();
+  const m=s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  if(m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(s)?s:null;
+}
+function viewSongs(){
+  const rows=SONGS.map(s=>({s,b:true})).concat(P.extra.map(s=>({s,b:false})));
+  const f=V.form;
+  return `<div class="nav"><button class="link" data-a="dev">← Developer</button></div>
+  <h2>Song list</h2><p class="sub">${songs().length} songs are in the test. Removing a built-in song only hides it on this device.</p>
+  ${V.msg?`<p class="msg ${V.msg.k}">${esc(V.msg.t)}</p>`:""}
+  <div class="list">${rows.map(({s,b})=>{ const hid=b&&P.hidden.includes(s.id), na=(P.alt[s.id]||[]).length+((s.alt||[]).length);
+    return `<div class="item" style="${hid?"opacity:.5":""}"><div class="t" style="white-space:normal"><b style="white-space:normal">${esc(s.title)}</b><small>${esc(s.composer)} · ${esc(s.yt)}${b?"":" · added by you"}${na?" · "+na+" backup link"+(na>1?"s":""):""}</small></div>
+    <div class="pills">${b?chip(hid?"Restore":"Remove","song-toggle",s.id):chip("Delete","song-del",s.id)}</div></div>`; }).join("")}</div>
+  <div class="set"><h3>Add a song</h3>
+    <div class="field"><label for="f-st">Title</label><input id="f-st" data-g="st" type="text" value="${esc(f.st)}" autocomplete="off"></div>
+    <div class="field"><label for="f-sc">Composer</label><input id="f-sc" data-g="sc" type="text" value="${esc(f.sc)}" autocomplete="off"></div>
+    <div class="field"><label for="f-sl">YouTube link</label><input id="f-sl" data-g="sl" type="text" value="${esc(f.sl)}" autocomplete="off" autocapitalize="none" spellcheck="false"></div>
+    <button class="btn big" data-a="song-add">Add song</button></div>
+  <div class="set"><h3>Backup link for a song that won't play</h3>
+    <p class="hint" style="margin-top:0">If the first video is blocked from playing on other websites (error 150/101), the app automatically tries the backup upload.</p>
+    <div class="field"><label for="f-bs">Song</label><select id="f-bs" data-g="bs" class="ta" style="min-height:0">${songs().map(s=>`<option value="${esc(s.id)}" ${f.bs===s.id?"selected":""}>${esc(s.title)} — ${esc(s.composer)}</option>`).join("")}</select></div>
+    <div class="field"><label for="f-bl">Backup YouTube link</label><input id="f-bl" data-g="bl" type="text" value="${esc(f.bl||"")}" autocomplete="off" autocapitalize="none" spellcheck="false"></div>
+    <button class="btn big" data-a="alt-add">Add backup link</button></div>`;
+}
+function addSong(){
+  const f=V.form, id=ytId(f.sl);
+  if(!f.st.trim()||!f.sc.trim()) V.msg={k:"bad",t:"Title and composer are required."};
+  else if(!id) V.msg={k:"bad",t:"Couldn't find a YouTube video id in that link."};
+  else {
+    P.extra.push({id:"x"+Date.now().toString(36),title:f.st.trim(),composer:f.sc.trim(),yt:id});
+    store.save("extraSongs",P.extra); V.form=Object.assign({},f,{st:"",sc:"",sl:""});
+    V.msg={k:"ok",t:"Song added. Run “Check links” in Music to test it."};
+  }
+  render();
+}
+function addAlt(){
+  const f=V.form, id=ytId(f.bl);
+  if(!f.bs) V.msg={k:"bad",t:"Pick a song first."};
+  else if(!id) V.msg={k:"bad",t:"Couldn't find a YouTube video id in that link."};
+  else { P.alt[f.bs]=(P.alt[f.bs]||[]).concat([id]); store.save("altLinks",P.alt); V.form=Object.assign({},f,{bl:""}); V.msg={k:"ok",t:"Backup link added."}; }
+  render();
+}
+function restoreBackup(){
+  const el=document.getElementById("restore");
+  try{
+    const o=JSON.parse(el.value);
+    if(!o||o.v!==1||![o.custom,o.extra,o.hidden,o.unlocked].every(Array.isArray)) throw new Error("bad");
+    P.custom=o.custom; P.extra=o.extra; P.hidden=o.hidden; P.unlocked=o.unlocked; P.alt=(o.alt&&typeof o.alt==="object")?o.alt:{}; store.save("altLinks",P.alt);
+    store.save("custom",P.custom); store.save("extraSongs",P.extra); store.save("hiddenSongs",P.hidden); store.save("unlocked",P.unlocked);
+    V.msg={k:"ok",t:"Backup restored."};
+  }catch(e){ V.msg={k:"bad",t:"That doesn't look like a valid backup."}; }
+  render();
+}
+
 function act(a,d){
   switch(a){
-    case "lang": P.lang=d.v; store.save("lang",P.lang); render(); break;
-    case "open": if(d.id==="music") go("music"); else { stopClip(); V={name:"soon",msg:null,sub:d.id}; render(); window.scrollTo(0,0); } break;
+    case "theme": { P.theme=P.theme==="dark"?"light":"dark"; store.save("theme",P.theme);
+      document.documentElement.setAttribute("data-theme",P.theme);
+      document.querySelectorAll(".theme").forEach(b=>b.setAttribute("aria-checked",String(P.theme==="dark"))); break; }
+    case "open": { const s=allSubjects().find(x=>x.id===d.id); stopClip(); P.last=d.id; store.save("last",d.id);
+      if(d.id==="music") go("music");
+      else { V={name:(s&&s.custom)?"qa":"soon",msg:null,sub:d.id}; render(); window.scrollTo(0,0); } break; }
     case "home": go("home"); break;
+    case "dev": go("dev"); break;
+    case "next-ans": if(Q.i+1>=Q.qs.length) finishAll(); else { stopClip(); clip.status="idle"; Q.i++; render(); window.scrollTo(0,0); } break;
+    case "prev": if(Q.i>0){ stopClip(); clip.status="idle"; Q.i--; render(); window.scrollTo(0,0); } break;
+    case "ov": ovRes(+d.i,d.f); break;
+    case "qa-nextans": if(QZ.i+1>=QZ.qs.length) qaFinishAll(); else { QZ.i++; render(); window.scrollTo(0,0); } break;
+    case "qa-prev": if(QZ.i>0){ QZ.i--; render(); window.scrollTo(0,0); } break;
+    case "qa-ov": qaOv(+d.i); break;
+    case "alt-add": addAlt(); break;
+    case "hero": act("open",{id:allSubjects().some(s=>s.id===P.last)?P.last:"music"}); break;
+    case "dev-off": P.dev=false; store.save("dev",false); go("home"); break;
+    case "dev-toggle": P.unlocked=P.unlocked.includes(d.id)?P.unlocked.filter(x=>x!==d.id):P.unlocked.concat([d.id]); store.save("unlocked",P.unlocked); render(); break;
+    case "relock": P.unlocked=P.custom.map(c=>c.id); store.save("unlocked",P.unlocked); V.msg={k:"ok",t:"Built-in subjects re-locked."}; render(); break;
+    case "reset-all":
+      if(V.armReset){ P.stats={}; P.qstats={}; store.save("stats",P.stats); store.save("qstats",P.qstats); V.armReset=false; V.msg={k:"ok",t:"All progress reset."}; } else V.armReset=true;
+      render(); break;
+    case "backup": copyText(JSON.stringify({v:1,custom:P.custom,extra:P.extra,hidden:P.hidden,unlocked:P.unlocked,alt:P.alt})); break;
+    case "restore": restoreBackup(); break;
+    case "pack": copyText(makePack(P.custom.find(x=>x.id===d.id))); break;
+    case "subj-new": V={name:"subj-edit",msg:null,form:{id:null,nameEt:"",nameEn:"",icon:"",code:"",strict:false,text:""}}; render(); window.scrollTo(0,0); break;
+    case "subj-edit": { const s=P.custom.find(x=>x.id===d.id);
+      V={name:"subj-edit",msg:null,form:{id:s.id,nameEt:s.name.et||"",nameEn:s.name.en||"",icon:s.icon||"",code:s.code||"",strict:!!s.strict,text:s.items.map(i=>i.q+" ; "+i.a).join("\n")}};
+      render(); window.scrollTo(0,0); break; }
+    case "strict": V.form.strict=!V.form.strict; render(); break;
+    case "subj-save": saveSubject(); break;
+    case "subj-del":
+      if(V.delArm===d.id){ P.custom=P.custom.filter(x=>x.id!==d.id); P.unlocked=P.unlocked.filter(x=>x!==d.id);
+        store.save("custom",P.custom); store.save("unlocked",P.unlocked); V.delArm=null; } else V.delArm=d.id;
+      render(); break;
+    case "songs": V={name:"songs",msg:null,form:{st:"",sc:"",sl:"",bs:SONGS[0].id,bl:""}}; render(); window.scrollTo(0,0); break;
+    case "song-add": addSong(); break;
+    case "song-toggle": P.hidden=P.hidden.includes(d.id)?P.hidden.filter(x=>x!==d.id):P.hidden.concat([d.id]); store.save("hiddenSongs",P.hidden); render(); break;
+    case "song-del": P.extra=P.extra.filter(x=>x.id!==d.id); store.save("extraSongs",P.extra); render(); break;
+    case "qa-start": startQA(d.id,d.weak==="1"); break;
+    case "qa-pick": { const q=QZ.qs[QZ.i]; q.pick=q.opts[+d.i]; render(); break; }
+    case "qa-check": qaCheck(); break;
+    case "qa-override": QZ.qs[QZ.i].res=true; render(); break;
+    case "qa-next": qaNext(); break;
+    case "qa-quit": V={name:"qa",msg:null,sub:d.id}; render(); window.scrollTo(0,0); break;
     case "music": go("music"); break;
     case "redeem": redeem(); break;
     case "set": P.opts[d.k]=d.v; store.save("opts",P.opts); render(); break;
@@ -575,7 +1036,8 @@ function act(a,d){
     case "reset":
       if(resetArmed){ P.stats={}; store.save("stats",P.stats); resetArmed=false; } else resetArmed=true;
       render(); break;
-    case "play": doPlay(); break;
+    case "ptoggle": toggleClip(); break;
+    case "replay": doPlay(); break;
     case "pick": { const q=cur(); if(d.f==="title") q.picks.title=q.titleOpts[+d.i].id; else q.picks.composer=q.compOpts[+d.i]; render(); break; }
     case "check-ans": checkAnswer(); break;
     case "override": { const q=cur(); q.res[d.f]=true; render(); break; }
@@ -584,18 +1046,25 @@ function act(a,d){
   }
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-a]"); if(b) act(b.dataset.a,b.dataset); });
-document.addEventListener("input",e=>{ const el=e.target; if(el.dataset&&el.dataset.f&&Q&&Q.mode==="type"&&V.name==="quiz") cur().typed[el.dataset.f]=el.value; });
+document.addEventListener("input",e=>{ const el=e.target;
+  if(el.dataset&&el.dataset.f&&Q&&Q.mode==="type"&&V.name==="quiz") cur().typed[el.dataset.f]=el.value;
+  else if(el.id==="qa-in"&&QZ) QZ.qs[QZ.i].typed=el.value;
+  else if(el.dataset&&el.dataset.g&&V.form) V.form[el.dataset.g]=el.value; });
 document.addEventListener("keydown",e=>{
   if(e.key!=="Enter") return;
   const el=e.target;
   if(el.id==="code"){ redeem(); }
+  else if(el.id==="qa-in"){ e.preventDefault(); if(QZ.checkEnd) act("qa-nextans",{}); else qaCheck(); }
+  else if(V.name==="qa-quiz"&&QZ.phase==="reveal"&&el.tagName!=="A"&&el.tagName!=="BUTTON"){ qaNext(); }
   else if(el.id==="f-title"){ e.preventDefault(); const n=document.getElementById("f-composer"); if(n) n.focus(); }
-  else if(el.id==="f-composer"){ e.preventDefault(); checkAnswer(); }
+  else if(el.id==="f-composer"){ e.preventDefault(); if(Q.checkEnd) act("next-ans",{}); else checkAnswer(); }
   else if(V.name==="quiz"&&Q.phase==="reveal"&&el.tagName!=="A"&&el.tagName!=="BUTTON"){ nextQ(); }
 });
 
+document.documentElement.setAttribute("data-theme",P.theme==="dark"?"dark":"light");
 render();
-window.__app={SONGS,matchTitle,matchComposer,norm,codeHash,P,act,get V(){return V},get Q(){return Q}};
+requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.remove("nt")));
+window.__app={SONGS,songs,qaMatch,makePack,importPack,get QZ(){return QZ},matchTitle,matchComposer,norm,codeHash,P,act,get V(){return V},get Q(){return Q}};
 </script>
 </body>
 </html>
