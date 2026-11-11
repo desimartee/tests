@@ -20,12 +20,12 @@
 @property --primary{syntax:"<color>";inherits:true;initial-value:#9e1b2a}
 @property --primary-ink{syntax:"<color>";inherits:true;initial-value:#ffffff}
 @property --primary-soft{syntax:"<color>";inherits:true;initial-value:#f5e7e9}
-@property --tile{syntax:"<color>";inherits:true;initial-value:#5d5e66}
-@property --tile2{syntax:"<color>";inherits:true;initial-value:#46474e}
+@property --tile{syntax:"<color>";inherits:true;initial-value:#e4e4e7}
+@property --tile2{syntax:"<color>";inherits:true;initial-value:#d6d6db}
 :root{
   --bg:#f1f1f3; --bg2:#ffffff; --card:#ffffff; --ink:#1b1b1f; --muted:#6f7076; --line:#dcdce0;
   --primary:#9e1b2a; --primary-ink:#ffffff; --primary-soft:#f5e7e9; --teal:var(--primary); --accent:#8d8e95;
-  --tile:#5d5e66; --tile2:#46474e;
+  --tile:#e4e4e7; --tile2:#d6d6db; --tileink:#1b1b1f; --tilesub:rgba(27,27,31,.62); --herosub:#4a4b52; --herobtn:#9e1b2a; --herobtnink:#fff; --dot:#8d8e95;
   --ok:#1b9a60; --okbg:#e3f5ec; --bad:#c62f3d; --badbg:#fbe9eb;
   --shadow:0 2px 4px rgba(0,0,0,.04),0 10px 28px rgba(0,0,0,.08);
   transition:--bg .55s ease,--bg2 .55s ease,--card .55s ease,--ink .55s ease,--muted .55s ease,--line .55s ease,--primary .55s ease,--primary-ink .55s ease,--primary-soft .55s ease,--tile .55s ease,--tile2 .55s ease;
@@ -33,7 +33,7 @@
 :root[data-theme="dark"]{
   --bg:#0b0b0c; --bg2:#050506; --card:#161618; --ink:#f2f2f3; --muted:#a4a5ab; --line:#2a2a2f;
   --primary:#c0293a; --primary-ink:#ffffff; --primary-soft:#2b1a1d; --accent:#9a9ba2;
-  --tile:#38383e; --tile2:#27272c;
+  --tile:#38383e; --tile2:#27272c; --tileink:#fff; --tilesub:rgba(255,255,255,.72); --herosub:rgba(255,255,255,.78); --herobtn:#fff; --herobtnink:#9e1b2a; --dot:#d4d4d9;
   --ok:#69d49c; --okbg:#143125; --bad:#ff8c95; --badbg:#3a1a1f; --shadow:none;
 }
 :root.nt{transition:none}
@@ -58,23 +58,25 @@ a.link{text-decoration:none;display:inline-block}
 .lang button.on{background:var(--primary);color:var(--primary-ink)}
 .card{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:16px}
 .hero{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px;border-radius:24px;
-  background:linear-gradient(135deg,var(--tile),var(--tile2));color:#fff;box-shadow:var(--shadow)}
+  background:linear-gradient(135deg,var(--tile),var(--tile2));color:var(--tileink);box-shadow:var(--shadow)}
 .hero h2{font-size:21px}
-.hero p{margin:6px 0 14px;color:rgba(255,255,255,.78);font-size:14px}
-.hero .btn{padding:11px 26px;border-radius:14px;background:#fff;color:#9e1b2a}
+.hero p{margin:6px 0 14px;color:var(--herosub);font-size:14px}
+.hero .btn{padding:11px 26px;border-radius:14px;background:var(--herobtn);color:var(--herobtnink)}
 .hero svg{flex:none}
 .sec{margin:26px 0 12px}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .tile{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:0;border-radius:22px;padding:16px;min-height:138px;
-  background:var(--tile);color:#fff;box-shadow:var(--shadow);transition:transform .12s}
+  background:var(--tile);color:var(--tileink);box-shadow:var(--shadow);transition:transform .12s}
 .tile:active{transform:scale(.97)}
 .tile .tic{width:46px;height:46px;border-radius:15px;background:#fff;color:var(--t-fg);display:grid;place-items:center;font:700 23px Poppins,sans-serif;margin-bottom:auto;box-shadow:0 4px 10px rgba(0,0,0,.06)}
 .tile b{font-size:16px;line-height:1.25;margin-top:12px;overflow-wrap:anywhere}
-.tile small{color:rgba(255,255,255,.72);font-size:12.5px;line-height:1.3}
+.tile small{color:var(--tilesub);font-size:12.5px;line-height:1.3}
 .redeem{margin-top:26px}
 .redeem label{display:block;font-weight:600;margin-bottom:10px}
 .row{display:flex;gap:8px}
 input[type=text]{flex:1;min-width:0;font:inherit;padding:13px 15px;border-radius:14px;border:2px solid var(--line);background:var(--bg2);color:var(--ink)}
+select.sel{width:100%;font:inherit;padding:13px 40px 13px 15px;border-radius:14px;border:2px solid var(--line);background:var(--bg2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 15px center;color:var(--ink);appearance:none;-webkit-appearance:none;text-overflow:ellipsis}
+select.sel:focus{outline:none;border-color:var(--primary)}
 input[type=text]:focus,.ta:focus{outline:none;border-color:var(--primary)}
 .btn{border:0;background:var(--primary);color:var(--primary-ink);font-weight:600;padding:13px 20px;border-radius:14px}
 .btn.big{width:100%;padding:16px;font-size:17px;margin-top:16px;border-radius:18px;box-shadow:0 10px 22px rgba(158,27,42,.3)}
@@ -86,6 +88,18 @@ input[type=text]:focus,.ta:focus{outline:none;border-color:var(--primary)}
 .hint{color:var(--muted);font-size:13.5px;margin:10px 0 0}
 .set{margin-top:22px}
 .set h3{margin-bottom:10px}
+#app.slide>*:not(.nav){animation:slin .38s cubic-bezier(.2,.8,.2,1) both}
+#app.slide .qhead span{display:inline-block;animation:qnum .7s .1s ease both}
+#app.slide .dots i.c{transform-origin:left;animation:dotin .55s .15s ease both}
+#app.slide .dots i.just{animation:dotdone .5s ease both}
+@keyframes slin{from{opacity:0;transform:translateX(46px)}to{opacity:1;transform:none}}
+@keyframes qnum{0%{transform:scale(1);color:inherit}35%{transform:scale(1.35);color:var(--primary)}100%{transform:scale(1);color:inherit}}
+@keyframes dotin{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes dotdone{0%{transform:scaleY(1)}40%{transform:scaleY(1.9)}100%{transform:scaleY(1)}}
+.set.need{animation:shk .4s}
+.set.need .seg button{border-color:var(--primary)}
+.needmsg{margin:8px 2px 0;color:var(--primary);font-size:13px;font-weight:600}
+@keyframes shk{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .seg{display:flex;gap:8px;flex-wrap:wrap}
 .seg button{flex:1;min-width:76px;padding:13px 10px;border-radius:16px;border:2px solid transparent;background:var(--card);font-weight:600;box-shadow:var(--shadow)}
 .seg button.on{background:var(--primary);color:var(--primary-ink)}
@@ -255,7 +269,7 @@ const I18N = {
   redeemT:"Sul on kood?", redeem:"Ava", redeemPh:"Sisesta kood", redeemH:"Kood avab uue aine.",
   rOk:"Aine avatud: {n}", rDup:"See aine on juba avatud.", rBad:"Seda koodi ei leitud.",
   back:"← Tagasi", home:"Avalehele",
-  music:"Muusikatest", how:"Vastamise viis", mc:"Valikvastused", type:"Kirjuta ise",
+  music:"Muusika eesti kuulamistest", pickT:"Vali üks variant", pickTitle:"Vali pealkiri…", pickAll:"Vali enne alustamist kõik valikud.", how:"Vastamise viis", mc:"Valikvastused", type:"Kirjuta ise",
   nq:"Küsimusi", all:"Kõik", weak:"Nõrgad", rnd:"Alusta laulu juhuslikust kohast",
   clipInfo:"Iga lõik kestab 15–20 sekundit.", start:"Alusta",
   progress:"Edusammud", check:"Kontrolli linke",
@@ -315,6 +329,8 @@ const t=(k,v)=>String((I18N[P.lang][k] ?? I18N.et[k] ?? k)).replace(/\{(\w+)\}/g
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 const fullTitle=s=>s.title+(s.note?" ("+s.note+")":"");
+const titleLbl=id=>{ const s=songs().find(x=>x.id===id); return s?fullTitle(s):""; };
+const titleOptsHtml=sel=>`<option value="" ${sel?"":"selected"} disabled>${t("pickTitle")}</option>`+songs().slice().sort((a,b)=>a.title.localeCompare(b.title,"et")).map(x=>`<option value="${esc(x.id)}" ${sel===x.id?"selected":""}>${esc(fullTitle(x))}</option>`).join("");
 
 function cyrb53(str,seed=0){let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0;i<str.length;i++){const ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);}
 const codeHash=c=>cyrb53("opi:"+c.toUpperCase().replace(/[^A-Z0-9]/g,""));
@@ -491,7 +507,7 @@ function startQuiz(onlyWeak){
 }
 function gradeQ(q){
   if(Q.mode==="mc") return {t:q.picks.title===q.song.id,c:q.picks.composer===q.song.composer};
-  return {t:matchTitle(q.typed.title,q.song),c:matchComposer(q.typed.composer,q.song)};
+  return {t:q.typed.title===q.song.id,c:matchComposer(q.typed.composer,q.song)};
 }
 function checkAnswer(){ const q=cur(); q.res=gradeQ(q); Q.phase="reveal"; render(); }
 function commit(q){
@@ -501,10 +517,15 @@ function commit(q){
   st.recent=(st.recent||[]).concat([[q.res.t?1:0,q.res.c?1:0]]).slice(-3);
   P.stats[q.song.id]=st; store.save("stats",P.stats);
 }
+function flashQ(i,n){
+  const app=document.getElementById("app"); if(!app) return;
+  app.classList.remove("slide"); void app.offsetWidth; app.classList.add("slide"); const dt=app.querySelectorAll(".dots i"); if(dt[i-2]) dt[i-2].classList.add("just");
+  setTimeout(()=>app.classList.remove("slide"),900);
+}
 function nextQ(){
   const q=cur(); commit(q); stopClip();
   if(Q.i+1>=Q.qs.length){ if(Q.checkEnd) finishAll(); else go("results"); return; }
-  Q.i++; Q.phase="ask"; clip.status="idle"; render(); window.scrollTo(0,0);
+  Q.i++; Q.phase="ask"; clip.status="idle"; render(); window.scrollTo(0,0); flashQ(Q.i+1,Q.qs.length);
 }
 function finishAll(){
   Q.qs.forEach(q=>{ if(!q.skipped){ if(!q.res) q.res=gradeQ(q); commit(q); } });
@@ -549,7 +570,7 @@ function go(name){ if(name!=="quiz") stopClip(); if(V.name==="check"&&name!=="ch
   V={name,msg:null}; resetArmed=false; render(); window.scrollTo(0,0); }
 
 const langToggle=()=>`<button class="theme" data-a="theme" role="switch" aria-checked="${P.theme==="dark"}" aria-label="Tume režiim"><span class="trk"><span class="cl c1"></span><span class="cl c2"></span><span class="st s1"></span><span class="st s2"></span><span class="st s3"></span><span class="knob"><span class="cr a"></span><span class="cr b"></span></span></span></button>`;
-const HERO_SVG='<svg viewBox="0 0 120 120" width="104" height="104" aria-hidden="true"><circle cx="60" cy="62" r="46" fill="#fff" opacity=".6"/><circle cx="60" cy="62" r="34" fill="#9e1b2a"/><path d="M52 80V50l26-6v28" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="80" r="7" fill="#fff"/><circle cx="72" cy="72" r="7" fill="#fff"/><circle cx="96" cy="26" r="7" fill="#9e1b2a"/><circle cx="20" cy="40" r="5" fill="#d4d4d9"/></svg>';
+const HERO_SVG='<svg viewBox="0 0 120 120" width="104" height="104" aria-hidden="true"><circle cx="60" cy="62" r="46" fill="#fff" opacity=".6"/><circle cx="60" cy="62" r="34" fill="#9e1b2a"/><path d="M52 80V50l26-6v28" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="80" r="7" fill="#fff"/><circle cx="72" cy="72" r="7" fill="#fff"/><circle cx="96" cy="26" r="7" fill="#9e1b2a"/><circle cx="20" cy="40" r="5" fill="var(--dot)"/></svg>';
 function viewHome(){
   const subs=allSubjects().filter(s=>s.always||P.unlocked.includes(s.id)||P.dev);
   const last=subs.find(s=>s.id===P.last)||subs[0];
@@ -571,7 +592,14 @@ function viewSoon(){
   <div class="card center" style="margin-top:18px;padding:30px 16px"><div class="ic" style="margin:0 auto 12px">${s.icon}</div>
   <b>${t("soon")}</b><p class="hint">${t("soonH")}</p></div>`;
 }
+function pk(k){ return V.pick&&V.pick[k] ? "1" : ""; }
+function sect(key,title,html){ const miss=V.missing&&V.missing.includes(key);
+  return `<div class="set${miss?" need":""}" data-need="${key}"><h3>${title}</h3>${html}${miss?`<p class="needmsg">${t("pickT")}</p>`:""}</div>`; }
+function missing(keys){ const m=keys.filter(k=>!(V.pick&&V.pick[k])); V.missing=m;
+  if(m.length){ render(); const el=document.querySelector(".need"); if(el) el.scrollIntoView({behavior:"smooth",block:"center"}); }
+  return !m.length; }
 function seg(key,vals,curv,dis){
+  if(!pk(key)) curv=null;
   return `<div class="seg">${vals.map(([v,l])=>`<button class="${String(curv)===v?"on":""}" ${dis&&dis.includes(v)?"disabled":""} data-a="set" data-k="${key}" data-v="${v}">${l}</button>`).join("")}</div>`;
 }
 function viewMusic(){
@@ -579,9 +607,9 @@ function viewMusic(){
   const count=P.opts.count==="weak"&&!wk?"10":P.opts.count;
   return `<div class="nav"><button class="link" data-a="home">${t("back")}</button>${langToggle()}</div>
   <h2>${t("music")}</h2><p class="sub">${t("clipInfo")}</p>
-  <div class="set"><h3>${t("how")}</h3>${seg("mode",[["mc",t("mc")],["type",t("type")]],P.opts.mode)}</div>
-  <div class="set"><h3>${t("nq")}</h3>${seg("count",[["5","5"],["10","10"],["all",t("all")+" ("+songs().length+")"],["weak",t("weak")+(wk?" ("+wk+")":"")]],count,wk?null:["weak"])}</div>
-  <div class="set"><h3>${t("checkT")}</h3>${seg("checkEnd",[["0",t("chkEach")],["1",t("chkEnd")]],P.opts.checkEnd||"0")}</div>
+  ${sect("mode",t("how"),seg("mode",[["mc",t("mc")],["type",t("type")]],P.opts.mode))}
+  ${sect("count",t("nq"),seg("count",[["5","5"],["10","10"],["all",t("all")+" ("+songs().length+")"],["weak",t("weak")+(wk?" ("+wk+")":"")]],count,wk?null:["weak"]))}
+  ${sect("checkEnd",t("checkT"),seg("checkEnd",[["0",t("chkEach")],["1",t("chkEnd")]],P.opts.checkEnd||"0"))}
   <div class="set"><button class="switch ${P.opts.random?"on":""}" data-a="toggle"><span>${t("rnd")}</span><i></i></button></div>
   <button class="btn big cta" data-a="start">${t("start")}</button>
   <div class="links"><button class="link" data-a="progress">${t("progress")}</button><button class="link" data-a="check">${t("check")}</button></div>`;
@@ -603,7 +631,7 @@ function viewQuiz(){
       body=`<div class="grp"><h3>${t("title")}</h3><div class="opts">${q.titleOpts.map((o,i)=>`<button class="opt ${q.picks.title===o.id?"sel":""}" data-a="pick" data-f="title" data-i="${i}"><span class="let">${"ABCD"[i]}</span>${esc(o.label)}</button>`).join("")}</div></div>
       <div class="grp"><h3>${t("composer")}</h3><div class="opts">${q.compOpts.map((o,i)=>`<button class="opt ${q.picks.composer===o?"sel":""}" data-a="pick" data-f="composer" data-i="${i}"><span class="let">${"ABCD"[i]}</span>${esc(o)}</button>`).join("")}</div></div>`;
     } else {
-      body=`<div class="grp"><div class="field"><label for="f-title">${t("title")}</label><input id="f-title" data-f="title" type="text" value="${esc(q.typed.title)}" autocomplete="off" autocorrect="off" spellcheck="false"></div>
+      body=`<div class="grp"><div class="field"><label for="f-title">${t("title")}</label><select id="f-title" class="sel" data-f="title">${titleOptsHtml(q.typed.title)}</select></div>
       <div class="field"><label for="f-composer">${t("composer")}</label><input id="f-composer" data-f="composer" type="text" value="${esc(q.typed.composer)}" autocomplete="off" autocorrect="off" spellcheck="false"></div></div>`;
     }
     if(q.err) body+=`<div class="row" style="margin-top:12px"><a class="btn ghost" style="flex:1;text-align:center;text-decoration:none" href="${ytLink}" target="_blank" rel="noopener">${t("openyt")}</a><button class="btn ghost" style="flex:1" data-a="skip">${t("skip")}</button></div>`;
@@ -617,7 +645,7 @@ function viewQuiz(){
   } else {
     const part=(label,ok,correct,yours,f)=>`<div class="part ${ok?"ok":"bad"}"><span class="tag">${ok?"✓ "+t("right"):"✗ "+t("wrong")}</span><small>${label}</small><b>${esc(correct)}</b>
       ${!ok?`<div class="yours">${t("yours")}: ${esc(yours||t("empty"))}</div>${Q.mode==="type"?`<button class="mini" data-a="override" data-f="${f}">${t("iwas")}</button>`:""}`:""}</div>`;
-    const yT=Q.mode==="mc"?(q.titleOpts.find(o=>o.id===q.picks.title)||{}).label:q.typed.title;
+    const yT=Q.mode==="mc"?(q.titleOpts.find(o=>o.id===q.picks.title)||{}).label:titleLbl(q.typed.title);
     const yC=Q.mode==="mc"?q.picks.composer:q.typed.composer;
     body=`<div class="res">${part(t("title"),q.res.t,fullTitle(q.song),yT,"t")}${part(t("composer"),q.res.c,q.song.composer,yC,"c")}</div>
       <a class="link" style="display:inline-block;margin-top:14px" href="${ytLink}" target="_blank" rel="noopener">${t("openyt")} ↗</a>
@@ -630,7 +658,7 @@ function viewResults(){
   const qs=Q.qs.filter(q=>!q.skipped), n=qs.length;
   const tt=qs.filter(q=>q.res&&q.res.t).length, cc=qs.filter(q=>q.res&&q.res.c).length;
   const wk=weakSongs().length;
-  const yT=q=>Q.mode==="mc"?(q.titleOpts.find(o=>o.id===q.picks.title)||{}).label:q.typed.title;
+  const yT=q=>Q.mode==="mc"?(q.titleOpts.find(o=>o.id===q.picks.title)||{}).label:titleLbl(q.typed.title);
   const yC=q=>Q.mode==="mc"?q.picks.composer:q.typed.composer;
   const line=(q,i,f,label,correct,yours)=>{ const ok=q.res&&q.res[f];
     return `<div class="rl ${ok?"ok":"bad"}"><i>${ok?"✓":"✗"}</i><div><small>${label}</small><b>${esc(correct)}</b>${!ok?`<span class="yr">${t("yours")}: ${esc(yours||t("empty"))}</span>${Q.mode==="type"?`<button class="mini" data-a="ov" data-i="${i}" data-f="${f}">${t("iwas")}</button>`:""}`:""}</div></div>`; };
@@ -788,7 +816,7 @@ function qaFinishAll(){
 function qaNext(){
   const q=QZ.qs[QZ.i]; qaCommit(q);
   if(QZ.i+1>=QZ.qs.length){ go("qa-results"); return; }
-  QZ.i++; QZ.phase="ask"; render(); window.scrollTo(0,0);
+  QZ.i++; QZ.phase="ask"; render(); window.scrollTo(0,0); flashQ(QZ.i+1,QZ.qs.length);
 }
 function qaOv(i){
   const q=QZ.qs[i]; if(!q||q.res) return; q.res=true;
@@ -801,10 +829,10 @@ function viewQA(){
   const wk=qaWeakCount(sub); let c=P.opts.qacount||"10"; if(c==="weak"&&!wk) c="10";
   return `<div class="nav"><button class="link" data-a="home">${t("back")}</button>${langToggle()}</div>
   <h2>${esc(subjName(sub))}</h2><p class="sub">${t("nItems",{n:sub.items.length})}</p>
-  <div class="set"><h3>${t("how")}</h3>${seg("mode",[["mc",t("mc")],["type",t("type")]],P.opts.mode)}</div>
-  <div class="set"><h3>${t("dirT")}</h3>${seg("qadir",[["qa",t("dirQA")],["aq",t("dirAQ")]],P.opts.qadir||"qa")}</div>
-  <div class="set"><h3>${t("nq")}</h3>${seg("qacount",[["10","10"],["20","20"],["all",t("all")],["weak",t("weak")+(wk?" ("+wk+")":"")]],c,wk?null:["weak"])}</div>
-  <div class="set"><h3>${t("checkT")}</h3>${seg("checkEnd",[["0",t("chkEach")],["1",t("chkEnd")]],P.opts.checkEnd||"0")}</div>
+  ${sect("mode",t("how"),seg("mode",[["mc",t("mc")],["type",t("type")]],P.opts.mode))}
+  ${sect("qadir",t("dirT"),seg("qadir",[["qa",t("dirQA")],["aq",t("dirAQ")]],P.opts.qadir||"qa"))}
+  ${sect("qacount",t("nq"),seg("qacount",[["10","10"],["20","20"],["all",t("all")],["weak",t("weak")+(wk?" ("+wk+")":"")]],c,wk?null:["weak"]))}
+  ${sect("checkEnd",t("checkT"),seg("checkEnd",[["0",t("chkEach")],["1",t("chkEnd")]],P.opts.checkEnd||"0"))}
   <button class="btn big cta" data-a="qa-start" data-id="${sub.id}" data-weak="${c==="weak"?1:0}">${t("start")}</button>`;
 }
 function viewQAQuiz(){
@@ -987,10 +1015,10 @@ function act(a,d){
       else { V={name:(s&&s.custom)?"qa":"soon",msg:null,sub:d.id}; render(); window.scrollTo(0,0); } break; }
     case "home": go("home"); break;
     case "dev": go("dev"); break;
-    case "next-ans": if(Q.i+1>=Q.qs.length) finishAll(); else { stopClip(); clip.status="idle"; Q.i++; render(); window.scrollTo(0,0); } break;
+    case "next-ans": if(Q.i+1>=Q.qs.length) finishAll(); else { stopClip(); clip.status="idle"; Q.i++; render(); window.scrollTo(0,0); flashQ(Q.i+1,Q.qs.length); } break;
     case "prev": if(Q.i>0){ stopClip(); clip.status="idle"; Q.i--; render(); window.scrollTo(0,0); } break;
     case "ov": ovRes(+d.i,d.f); break;
-    case "qa-nextans": if(QZ.i+1>=QZ.qs.length) qaFinishAll(); else { QZ.i++; render(); window.scrollTo(0,0); } break;
+    case "qa-nextans": if(QZ.i+1>=QZ.qs.length) qaFinishAll(); else { QZ.i++; render(); window.scrollTo(0,0); flashQ(QZ.i+1,QZ.qs.length); } break;
     case "qa-prev": if(QZ.i>0){ QZ.i--; render(); window.scrollTo(0,0); } break;
     case "qa-ov": qaOv(+d.i); break;
     case "alt-add": addAlt(); break;
@@ -1018,7 +1046,7 @@ function act(a,d){
     case "song-add": addSong(); break;
     case "song-toggle": P.hidden=P.hidden.includes(d.id)?P.hidden.filter(x=>x!==d.id):P.hidden.concat([d.id]); store.save("hiddenSongs",P.hidden); render(); break;
     case "song-del": P.extra=P.extra.filter(x=>x.id!==d.id); store.save("extraSongs",P.extra); render(); break;
-    case "qa-start": startQA(d.id,d.weak==="1"); break;
+    case "qa-start": if(V.name==="qa"&&!missing(["mode","qadir","qacount","checkEnd"])) break; startQA(d.id,d.weak==="1"); break;
     case "qa-pick": { const q=QZ.qs[QZ.i]; q.pick=q.opts[+d.i]; render(); break; }
     case "qa-check": qaCheck(); break;
     case "qa-override": QZ.qs[QZ.i].res=true; render(); break;
@@ -1026,9 +1054,9 @@ function act(a,d){
     case "qa-quit": V={name:"qa",msg:null,sub:d.id}; render(); window.scrollTo(0,0); break;
     case "music": go("music"); break;
     case "redeem": redeem(); break;
-    case "set": P.opts[d.k]=d.v; store.save("opts",P.opts); render(); break;
+    case "set": P.opts[d.k]=d.v; store.save("opts",P.opts); V.pick=V.pick||{}; V.pick[d.k]=1; if(V.missing) V.missing=V.missing.filter(k=>k!==d.k); render(); break;
     case "toggle": P.opts.random=!P.opts.random; store.save("opts",P.opts); render(); break;
-    case "start": startQuiz(false); break;
+    case "start": if(V.name==="music"&&!missing(["mode","count","checkEnd"])) break; startQuiz(false); break;
     case "start-weak": startQuiz(true); break;
     case "progress": go("progress"); break;
     case "check": go("check"); break;
