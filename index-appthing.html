@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#f6f1e7">
+<title>Õpi! · Study</title>
+<style>
+:root{
+  --bg:#f6f1e7; --card:#fffdf8; --ink:#1d2433; --muted:#6b7280; --line:#e4dccb;
+  --accent:#d9553b; --accent-ink:#fff; --teal:#2f5d62; --ok:#2e7d4f; --bad:#c0392b;
+  --okbg:#e5f3ea; --badbg:#fbe9e6; --shadow:0 1px 2px rgba(29,36,51,.06),0 6px 20px rgba(29,36,51,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#14171f; --card:#1d2230; --ink:#eef0f4; --muted:#9aa3b2; --line:#2c3345;
+  --accent:#ff8a6b; --accent-ink:#1a1008; --teal:#7fc1c8; --ok:#6ed19a; --bad:#ff8f80;
+  --okbg:#17301f; --badbg:#3a1d1a; --shadow:none}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:560px;margin:0 auto;padding:18px 16px 60px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;margin:0;letter-spacing:-.01em}
+h1{font-size:34px;line-height:1.05}
+h2{font-size:26px}
+h3{font-size:15px;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.sub{margin:4px 0 0;color:var(--muted)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:22px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.link{background:none;border:0;padding:6px 0;color:var(--teal);font-weight:600}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.lang button{border:0;background:none;padding:6px 12px;font-weight:700;font-size:13px;color:var(--muted)}
+.lang button.on{background:var(--ink);color:var(--bg)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px}
+.grid{display:grid;gap:12px}
+.subj{display:flex;gap:14px;align-items:center;text-align:left;width:100%}
+.subj b{display:block;font-size:18px}
+.subj small{color:var(--muted)}
+.ic{flex:none;width:46px;height:46px;border-radius:12px;background:var(--teal);color:var(--bg);display:grid;place-items:center;font:700 22px Georgia,serif}
+.redeem{margin-top:26px}
+.redeem label{display:block;font-weight:600;margin-bottom:8px}
+.row{display:flex;gap:8px}
+input[type=text]{flex:1;min-width:0;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+input[type=text]:focus{outline:2px solid var(--teal);border-color:transparent}
+.btn{border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;padding:12px 18px;border-radius:12px}
+.btn.big{width:100%;padding:15px;font-size:17px;margin-top:14px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.msg{margin:8px 0 0;font-weight:600}
+.msg.ok{color:var(--ok)} .msg.bad{color:var(--bad)}
+.hint{color:var(--muted);font-size:14px;margin:8px 0 0}
+.set{margin-top:20px}
+.set h3{margin-bottom:8px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:70px;padding:11px 10px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-weight:600}
+.seg button.on{border-color:var(--teal);background:var(--teal);color:var(--bg)}
+.seg button:disabled{opacity:.4}
+.switch{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card)}
+.switch i{flex:none;width:44px;height:26px;border-radius:99px;background:var(--line);position:relative;transition:.15s}
+.switch i:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.15s}
+.switch.on i{background:var(--teal)} .switch.on i:after{left:21px}
+.links{display:flex;gap:18px;margin-top:22px;justify-content:center}
+.qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:var(--muted);font-weight:600}
+.dots{display:flex;gap:4px;margin-bottom:14px}
+.dots i{flex:1;height:5px;border-radius:9px;background:var(--line)}
+.dots i.d{background:var(--teal)} .dots i.c{background:var(--accent)}
+.player{display:flex;gap:16px;align-items:center}
+.play{flex:none;width:68px;height:68px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:26px;display:grid;place-items:center;box-shadow:0 6px 16px rgba(217,85,59,.35)}
+.pmeta{flex:1;min-width:0}
+#pstatus{font-weight:600;margin-bottom:8px;min-height:1.4em}
+#pstatus.err{color:var(--bad)}
+.bar{height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s linear}
+.grp{margin-top:20px}
+.opts{display:grid;gap:8px;margin-top:8px}
+.opt{text-align:left;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card)}
+.opt.sel{border-color:var(--teal);box-shadow:inset 0 0 0 1.5px var(--teal)}
+.field{margin-top:8px}
+.field+.field{margin-top:12px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.res{margin-top:14px;display:grid;gap:10px}
+.part{border-radius:12px;padding:12px 14px;border:1.5px solid}
+.part.ok{background:var(--okbg);border-color:var(--ok)}
+.part.bad{background:var(--badbg);border-color:var(--bad)}
+.part small{display:block;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:12px}
+.part b{display:block;font-size:17px;margin-top:2px}
+.part .yours{font-size:14px;color:var(--muted);margin-top:4px}
+.part .tag{float:right;font-weight:800}
+.part.ok .tag{color:var(--ok)} .part.bad .tag{color:var(--bad)}
+.mini{margin-top:8px;border:0;background:none;color:var(--teal);font-weight:700;padding:4px 0}
+.score{font:700 56px Georgia,serif;margin:4px 0}
+.list{display:grid;gap:8px;margin-top:16px}
+.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.item .t{min-width:0}
+.item .t b{display:block;overflow:hidden;text-overflow:ellipsis}
+.item .t small{color:var(--muted)}
+.pills{display:flex;gap:6px;flex:none}
+.pill{font-size:12px;font-weight:800;padding:3px 8px;border-radius:99px}
+.pill.ok{background:var(--okbg);color:var(--ok)} .pill.bad{background:var(--badbg);color:var(--bad)} .pill.na{background:var(--line);color:var(--muted)}
+.mbar{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--muted);margin-top:4px}
+.mbar .bar{flex:1;height:6px}
+.mbar i.t{background:var(--teal)} .mbar i.c{background:var(--accent)}
+.weakb{font-size:11px;font-weight:800;color:var(--bad);margin-left:6px}
+.warn{background:var(--badbg);border:1px solid var(--bad);border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:12px}
+#ytwrap{position:fixed;right:0;bottom:0;width:200px;height:200px;opacity:0;pointer-events:none;z-index:-1;overflow:hidden}
+.center{text-align:center}
+@media (max-width:380px){h1{font-size:30px}.play{width:60px;height:60px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="ytwrap"><div id="ytp"></div></div>
+<noscript>This app needs JavaScript. / See rakendus vajab JavaScripti.</noscript>
+
+<script>
+"use strict";
+/* =====================================================================
+   DATA  — add/replace songs here. yt = the 11-character YouTube video id.
+   ===================================================================== */
+const SONGS = [
+  {id:"kunileid-isamaa",  title:"Mu isamaa on minu arm",  composer:"Aleksander Kunileid", yt:"1ziVAMnRoSU"},
+  {id:"kunileid-surmani", title:"Sind surmani",           composer:"Aleksander Kunileid", yt:"lKwjGnF54yY"},
+  {id:"hermann-kungla",   title:"Kungla rahvas",          composer:"Karl August Hermann", yt:"liSX4-ssI4w"},
+  {id:"harma-ei-saa",     title:"Ei saa mitte vaiki olla",composer:"Miina Härma",         yt:"UvPCWDay3nY"},
+  {id:"harma-meeste",     title:"Meeste laul",            composer:"Miina Härma",         yt:"XMgzZ9WR8Z4"},
+  {id:"harma-tuljak",     title:"Tuljak",                 composer:"Miina Härma",         yt:"2k2lsqm8JLk"},
+  {id:"ludig-koit",       title:"Koit",                   composer:"Mihkel Lüdig",        yt:"rw_38RCyPF0"},
+  {id:"kull-kodumaa",     title:"Kodumaa",                composer:"Raimund Kull",        yt:"1F-IxiGKuBM"},
+  {id:"tobias-sanctus",   title:"Sanctus",                composer:"Rudolf Tobias",       yt:"S7HhSdQ5DoA",
+     note:"oratooriumist „Joonase lähetamine“", alts:["Joonase lähetamine","Sanctus Joonase lähetamine"]},
+  {id:"tobias-eks-teie",  title:"Eks teie tea",           composer:"Rudolf Tobias",       yt:"-3dP2AjpCbM"},
+  {id:"saar-leelo",       title:"Leelo",                  composer:"Mart Saar",           yt:"aHuaIz6ZK6s",
+     note:"Mis need ohjad meida hoidvad", alts:["Mis need ohjad meida hoidvad"]},
+  {id:"saar-pohjavaim",   title:"Põhjavaim",              composer:"Mart Saar",           yt:"SCZGJyvO5ls"},
+  {id:"kreek-mu-suda",    title:"Mu süda, ärka üles",     composer:"Cyrillus Kreek",      yt:"3GAO-6WLSDA"},
+  {id:"tubin-maksameliste",title:"Maksameliste tants",    composer:"Eduard Tubin",        yt:"va8vcpT5h1A",
+     note:"balletist „Kratt“", alts:["Kratt","Maksameliste tants Kratt"]},
+  {id:"eller-kodumaine",  title:"Kodumaine viis",         composer:"Heino Eller",         yt:"ziQsftebsbg"}
+];
+
+/* Subjects. A subject with codeHash stays hidden until its code is redeemed.
+   Hash = cyrb53("opi:" + CODE). Codes are checked in the browser only, so this
+   hides subjects from friends casually — it is not real security. */
+const SUBJECTS = [
+  {id:"music", always:true, icon:"♪", name:{et:"Muusika",en:"Music"},
+   desc:{et:"Tunne ära laul ja helilooja",en:"Recognise the song and composer"}},
+  {id:"bio", codeHash:"1kef0ox5tst", icon:"β", name:{et:"Bioloogia",en:"Biology"},
+   desc:{et:"Bioloogia test",en:"Biology test"}, soon:true},
+  {id:"es", codeHash:"1rmvr36snhw", icon:"Ñ", name:{et:"Hispaania keel",en:"Spanish"},
+   desc:{et:"Hispaania sõnade test",en:"Spanish words test"}, soon:true}
+];
+
+const I18N = {
+ et:{
+  app:"Õpi!", tag:"Harjutustestid kontrolltöödeks",
+  redeemT:"Sul on kood?", redeem:"Ava", redeemPh:"Sisesta kood", redeemH:"Kood avab uue aine.",
+  rOk:"Aine avatud: {n}", rDup:"See aine on juba avatud.", rBad:"Seda koodi ei leitud.",
+  back:"← Tagasi", home:"Avalehele",
+  music:"Muusikatest", how:"Vastamise viis", mc:"Valikvastused", type:"Kirjuta ise",
+  nq:"Küsimusi", all:"Kõik", weak:"Nõrgad", rnd:"Alusta laulu juhuslikust kohast",
+  clipInfo:"Iga lõik kestab 15–20 sekundit.", start:"Alusta",
+  progress:"Edusammud", check:"Kontrolli linke",
+  soon:"Selle aine sisu pole veel lisatud.", soonH:"Tule hiljem tagasi!",
+  q:"Küsimus {i} / {n}", quit:"Katkesta",
+  play:"Mängi", replay:"Mängi uuesti", wait:"Mängija laeb… proovi hetke pärast uuesti.",
+  noapi:"YouTube'i mängija ei laadinud. Ava leht tavalises brauseris veebilingilt (mitte eelvaates ega failina) ja lülita reklaamiblokeerija välja.",
+  loading:"Laen…", playing:"Mängib…", done:"Lõik lõppes", idle:"Vajuta mängi",
+  errv:"Video ei mängi (viga {c}).", openyt:"Ava YouTube'is", skip:"Jäta vahele",
+  title:"Pealkiri", composer:"Helilooja", ans:"Kontrolli", next:"Järgmine", finish:"Lõpeta",
+  right:"Õige", wrong:"Vale", correctAns:"Õige vastus", yours:"Sinu vastus", empty:"(tühi)",
+  iwas:"Mul oli õige", res:"Tulemus", titles:"Pealkirjad", composers:"Heliloojad",
+  again:"Proovi uuesti", weakOnly:"Ainult nõrgad laulud", skipped:"vahele jäetud",
+  prog:"Edusammud", noData:"Pole veel proovitud", tries:"korda", reset:"Lähtesta edusammud", sure:"Kas oled kindel? Vajuta uuesti.",
+  chk:"Linkide kontroll", chkInfo:"Siin on pealkirjad näha. Ära vaata enne testi!", runChk:"Kontrolli kõiki linke",
+  okL:"Töötab", badL:"Ei tööta", waitL:"ootab", loadL:"kontrollin…", expected:"Oodatud",
+  weakBadge:"nõrk"
+ },
+ en:{
+  app:"Study!", tag:"Practice tests for your exams",
+  redeemT:"Got a code?", redeem:"Redeem", redeemPh:"Enter code", redeemH:"A code unlocks a new subject.",
+  rOk:"Subject unlocked: {n}", rDup:"You already unlocked that subject.", rBad:"That code wasn't found.",
+  back:"← Back", home:"Home",
+  music:"Music test", how:"Answer style", mc:"Multiple choice", type:"Type it",
+  nq:"Questions", all:"All", weak:"Weak", rnd:"Start the song at a random point",
+  clipInfo:"Each clip lasts 15–20 seconds.", start:"Start",
+  progress:"Progress", check:"Check links",
+  soon:"This subject has no content yet.", soonH:"Check back soon!",
+  q:"Question {i} / {n}", quit:"Quit",
+  play:"Play", replay:"Replay", wait:"Player is still loading… try again in a moment.",
+  noapi:"The YouTube player didn't load. Open the page in a normal browser from a web link (not in a preview or as a file) and turn off any ad blocker.",
+  loading:"Loading…", playing:"Playing…", done:"Clip finished", idle:"Press play",
+  errv:"Video won't play (error {c}).", openyt:"Open on YouTube", skip:"Skip",
+  title:"Title", composer:"Composer", ans:"Check", next:"Next", finish:"Finish",
+  right:"Correct", wrong:"Wrong", correctAns:"Correct answer", yours:"Your answer", empty:"(empty)",
+  iwas:"I was right", res:"Result", titles:"Titles", composers:"Composers",
+  again:"Try again", weakOnly:"Weak songs only", skipped:"skipped",
+  prog:"Progress", noData:"Not tried yet", tries:"tries", reset:"Reset progress", sure:"Are you sure? Tap again.",
+  chk:"Link check", chkInfo:"Titles are visible here. Don't peek before the test!", runChk:"Check all links",
+  okL:"Works", badL:"Not working", waitL:"waiting", loadL:"checking…", expected:"Expected",
+  weakBadge:"weak"
+ }
+};
+
+/* =====================================================================
+   Helpers
+   ===================================================================== */
+const store = {
+  load(k,d){ try{ const v=localStorage.getItem("opi."+k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+  save(k,v){ try{ localStorage.setItem("opi."+k, JSON.stringify(v)); }catch(e){} }
+};
+const P = {
+  lang: store.load("lang","et"),
+  unlocked: store.load("unlocked",[]),
+  opts: Object.assign({mode:"mc",count:"10",random:false}, store.load("opts",{})),
+  stats: store.load("stats",{})
+};
+if(!I18N[P.lang]) P.lang="et";
+const t=(k,v)=>String((I18N[P.lang][k] ?? I18N.et[k] ?? k)).replace(/\{(\w+)\}/g,(m,n)=>v&&v[n]!==undefined?v[n]:m);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const fullTitle=s=>s.title+(s.note?" ("+s.note+")":"");
+
+function cyrb53(str,seed=0){let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0;i<str.length;i++){const ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);}
+const codeHash=c=>cyrb53("opi:"+c.toUpperCase().replace(/[^A-Z0-9]/g,""));
+
+/* ---------- answer matching (typo-tolerant, ignores diacritics/punctuation) ---------- */
+function norm(s){
+  return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[^a-z0-9]+/g," ").trim();
+}
+function lev(a,b){
+  const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,i)=>i);
+  for(let i=1;i<=m;i++){ const cur=[i];
+    for(let j=1;j<=n;j++) cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    prev=cur; }
+  return prev[n];
+}
+const tol=len=>len<=4?0:len<=8?1:len<=14?2:3;
+function fuzzyEq(a,b){ return lev(a,b)<=tol(Math.max(a.length,b.length)); }
+function matchOne(input,cand){
+  const a=norm(input), c=norm(cand); if(!a||!c) return false;
+  if(fuzzyEq(a,c)) return true;
+  const at=a.split(" "), ct=c.split(" ");
+  if(ct.length<2||at.length>ct.length+1) return false;
+  let hit=0; for(const w of ct) if(at.some(x=>lev(x,w)<=(w.length>=5?1:0))) hit++;
+  return hit/ct.length>=0.8;
+}
+const matchTitle=(input,song)=>[song.title,...(song.alts||[])].some(c=>matchOne(input,c));
+function matchComposer(input,song){
+  const a=norm(input); if(!a) return false;
+  const full=norm(song.composer), parts=full.split(" "), sur=parts[parts.length-1];
+  if(fuzzyEq(a,full)||fuzzyEq(a,sur)) return true;
+  const m=a.match(/^([a-z])\s(.+)$/);                // "M. Härma"
+  if(m && parts[0][0]===m[1] && fuzzyEq(m[2],sur)) return true;
+  return false;
+}
+
+/* =====================================================================
+   YouTube player (hidden) + clip control
+   ===================================================================== */
+const yt={ready:false,failed:false,player:null,waiter:null};
+const clip={q:null,began:false,timer:null,status:"idle",statusVars:null,err:false,progress:0};
+
+(function loadYT(){
+  const s=document.createElement("script");
+  s.src="https://www.youtube.com/iframe_api";
+  s.onerror=()=>{yt.failed=true;};
+  document.head.appendChild(s);
+})();
+window.onYouTubeIframeAPIReady=function(){
+  const pv={controls:0,disablekb:1,fs:0,playsinline:1,rel:0,iv_load_policy:3,modestbranding:1,enablejsapi:1};
+  if(/^https?:$/.test(location.protocol)) pv.origin=location.origin;
+  yt.player=new YT.Player("ytp",{height:"200",width:"200",playerVars:pv,
+    events:{onReady:()=>{yt.ready=true;},onStateChange:onYtState,onError:onYtError}});
+};
+function onYtState(e){
+  const S_=window.YT&&YT.PlayerState; if(!S_) return;
+  if(yt.waiter && e.data===S_.CUED){
+    const w=yt.waiter; yt.waiter=null;
+    setTimeout(()=>{ let d={}; try{d=yt.player.getVideoData()||{};}catch(_){}
+      w.resolve({ok:true,title:d.title||"",author:d.author||""}); },400);
+    return;
+  }
+  const q=clip.q; if(!q) return;
+  if(e.data===S_.PLAYING && !clip.began){
+    clip.began=true;
+    if(q.start==null){
+      let st=0;
+      if(P.opts.random){
+        const dur=yt.player.getDuration()||0;
+        const max=Math.floor(dur-q.len-3);
+        if(max>5){ st=Math.floor(Math.random()*max); yt.player.seekTo(st,true); }
+      }
+      q.start=st;
+    }
+    setStatus("playing"); startTick();
+  } else if(e.data===S_.ENDED){ endClip(); }
+}
+function onYtError(e){
+  if(yt.waiter){ const w=yt.waiter; yt.waiter=null; w.resolve({ok:false,err:e.data}); return; }
+  stopClip(true);
+  clip.err=true; setStatus("errv",{c:e.data});
+  if(clip.q) clip.q.err=e.data;
+  render();
+}
+function startTick(){
+  clearInterval(clip.timer);
+  clip.timer=setInterval(()=>{
+    const q=clip.q; if(!q||!yt.player){ clearInterval(clip.timer); return; }
+    let cur=0; try{cur=yt.player.getCurrentTime();}catch(_){}
+    const el=Math.max(0,cur-(q.start||0));
+    clip.progress=Math.min(1,el/q.len); paintBar();
+    if(el>=q.len) endClip();
+  },200);
+}
+function endClip(){
+  clearInterval(clip.timer);
+  try{yt.player.pauseVideo();}catch(_){}
+  clip.progress=1; paintBar(); setStatus("done");
+}
+function stopClip(silent){
+  clearInterval(clip.timer);
+  try{ if(yt.ready) yt.player.pauseVideo(); }catch(_){}
+  if(!silent){ clip.q=null; }
+  clip.began=false; clip.progress=0; clip.err=false;
+}
+function setStatus(k,v){
+  clip.status=k; clip.statusVars=v||null;
+  const el=document.getElementById("pstatus");
+  if(el){ el.textContent=t(k,v); el.className=(k==="errv"||k==="noapi"||k==="wait")?"err":""; }
+}
+function paintBar(){ const b=document.getElementById("pbar"); if(b) b.style.width=(clip.progress*100)+"%"; }
+
+function doPlay(){
+  const q=cur(); if(!q) return;
+  if(yt.failed){ setStatus("noapi"); return; }
+  if(!yt.ready){ setStatus("wait"); return; }
+  stopClip(true); clip.q=q; clip.began=false; clip.progress=0; clip.err=false; q.err=null; q.played=true;
+  setStatus("loading"); paintBar();
+  yt.player.loadVideoById({videoId:q.song.yt,startSeconds:q.start||0});
+  const b=document.getElementById("playbtn"); if(b) b.textContent="↻";
+}
+
+/* =====================================================================
+   State & quiz logic
+   ===================================================================== */
+let V={name:"home",msg:null};
+let Q=null;
+let L={rows:[],running:false,abort:false};
+let resetArmed=false;
+const cur=()=>Q&&Q.qs[Q.i];
+
+function weakSongs(){
+  return SONGS.map(s=>{const st=P.stats[s.id]; const rec=(st&&st.recent)||[];
+      const miss=rec.reduce((a,r)=>a+(2-r[0]-r[1]),0); return {s,miss};})
+    .filter(x=>x.miss>0).sort((a,b)=>b.miss-a.miss).map(x=>x.s);
+}
+function makeQ(song){
+  const others=shuffle(SONGS.filter(s=>s.id!==song.id)).slice(0,3);
+  const comps=[...new Set(SONGS.map(s=>s.composer))].filter(c=>c!==song.composer);
+  return {song,len:15+Math.floor(Math.random()*6),start:null,
+    titleOpts:shuffle([song,...others]).map(s=>({id:s.id,label:s.title})),
+    compOpts:shuffle([song.composer,...shuffle(comps).slice(0,3)]),
+    picks:{},typed:{title:"",composer:""},res:null,over:{},played:false,err:null,skipped:false,committed:false};
+}
+function startQuiz(onlyWeak){
+  const c=onlyWeak?"weak":P.opts.count;
+  let pool=c==="weak"?weakSongs():SONGS.slice();
+  pool=shuffle(pool);
+  if(c!=="all"&&c!=="weak") pool=pool.slice(0,+c);
+  if(!pool.length) return;
+  Q={mode:P.opts.mode,i:0,qs:pool.map(makeQ),phase:"ask"};
+  clip.status="idle"; go("quiz");
+}
+function checkAnswer(){
+  const q=cur();
+  if(Q.mode==="mc"){ q.res={t:q.picks.title===q.song.id,c:q.picks.composer===q.song.composer}; }
+  else { q.res={t:matchTitle(q.typed.title,q.song),c:matchComposer(q.typed.composer,q.song)}; }
+  Q.phase="reveal"; render();
+}
+function commit(q){
+  if(q.committed||q.skipped||!q.res) return; q.committed=true;
+  const st=P.stats[q.song.id]||{n:0,t:0,c:0,recent:[]};
+  st.n++; st.t+=q.res.t?1:0; st.c+=q.res.c?1:0;
+  st.recent=(st.recent||[]).concat([[q.res.t?1:0,q.res.c?1:0]]).slice(-3);
+  P.stats[q.song.id]=st; store.save("stats",P.stats);
+}
+function nextQ(){
+  const q=cur(); commit(q); stopClip();
+  if(Q.i+1>=Q.qs.length){ go("results"); return; }
+  Q.i++; Q.phase="ask"; clip.status="idle"; render(); window.scrollTo(0,0);
+}
+
+/* ---------- link checker ---------- */
+function cueAndWait(id){
+  return new Promise(resolve=>{
+    const w={resolve,id}; yt.waiter=w;
+    try{ yt.player.cueVideoById(id); }catch(e){ yt.waiter=null; resolve({ok:false,err:"api"}); return; }
+    setTimeout(()=>{ if(yt.waiter===w){ yt.waiter=null; resolve({ok:false,err:"timeout"}); } },9000);
+  });
+}
+async function runCheck(){
+  if(yt.failed){ alert_(t("noapi")); return; }
+  if(!yt.ready){ alert_(t("wait")); return; }
+  stopClip(); L.running=true; L.abort=false;
+  L.rows=SONGS.map(s=>({s,state:"wait"})); render();
+  for(const r of L.rows){
+    if(L.abort) break;
+    r.state="load"; render();
+    const res=await cueAndWait(r.s.yt);
+    r.state=res.ok?"ok":"bad"; r.title=res.title; r.author=res.author; r.err=res.err; render();
+  }
+  L.running=false; render();
+}
+function alert_(m){ V.msg={k:"bad",t:m}; render(); }
+
+/* =====================================================================
+   Views
+   ===================================================================== */
+const $app=document.getElementById("app");
+function go(name){ if(name!=="quiz") stopClip(); if(V.name==="check"&&name!=="check") L.abort=true;
+  V={name,msg:null}; resetArmed=false; render(); window.scrollTo(0,0); }
+
+const langToggle=()=>`<div class="lang" role="group" aria-label="Language">
+  <button class="${P.lang==="et"?"on":""}" data-a="lang" data-v="et">ET</button>
+  <button class="${P.lang==="en"?"on":""}" data-a="lang" data-v="en">EN</button></div>`;
+
+function viewHome(){
+  const subs=SUBJECTS.filter(s=>s.always||P.unlocked.includes(s.id));
+  return `<header class="top"><div><h1>${t("app")}</h1><p class="sub">${t("tag")}</p></div>${langToggle()}</header>
+  <section class="grid">${subs.map(s=>`<button class="card subj" data-a="open" data-id="${s.id}">
+     <span class="ic">${s.icon}</span><span><b>${esc(s.name[P.lang])}</b><small>${esc(s.desc[P.lang])}</small></span></button>`).join("")}</section>
+  <section class="redeem"><label for="code">${t("redeemT")}</label>
+    <div class="row"><input id="code" type="text" placeholder="${t("redeemPh")}" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <button class="btn" data-a="redeem">${t("redeem")}</button></div>
+    ${V.msg?`<p class="msg ${V.msg.k}">${esc(V.msg.t)}</p>`:""}
+    <p class="hint">${t("redeemH")}</p></section>`;
+}
+function viewSoon(){
+  const s=SUBJECTS.find(x=>x.id===V.sub);
+  return `<div class="nav"><button class="link" data-a="home">${t("back")}</button>${langToggle()}</div>
+  <h2>${esc(s.name[P.lang])}</h2>
+  <div class="card center" style="margin-top:18px;padding:30px 16px"><div class="ic" style="margin:0 auto 12px">${s.icon}</div>
+  <b>${t("soon")}</b><p class="hint">${t("soonH")}</p></div>`;
+}
+function seg(key,vals,curv,dis){
+  return `<div class="seg">${vals.map(([v,l])=>`<button class="${String(curv)===v?"on":""}" ${dis&&dis.includes(v)?"disabled":""} data-a="set" data-k="${key}" data-v="${v}">${l}</button>`).join("")}</div>`;
+}
+function viewMusic(){
+  const wk=weakSongs().length;
+  const count=P.opts.count==="weak"&&!wk?"10":P.opts.count;
+  return `<div class="nav"><button class="link" data-a="home">${t("back")}</button>${langToggle()}</div>
+  <h2>${t("music")}</h2><p class="sub">${t("clipInfo")}</p>
+  <div class="set"><h3>${t("how")}</h3>${seg("mode",[["mc",t("mc")],["type",t("type")]],P.opts.mode)}</div>
+  <div class="set"><h3>${t("nq")}</h3>${seg("count",[["5","5"],["10","10"],["all",t("all")+" ("+SONGS.length+")"],["weak",t("weak")+(wk?" ("+wk+")":"")]],count,wk?null:["weak"])}</div>
+  <div class="set"><button class="switch ${P.opts.random?"on":""}" data-a="toggle"><span>${t("rnd")}</span><i></i></button></div>
+  <button class="btn big" data-a="start">${t("start")}</button>
+  <div class="links"><button class="link" data-a="progress">${t("progress")}</button><button class="link" data-a="check">${t("check")}</button></div>`;
+}
+function viewQuiz(){
+  const q=cur(), n=Q.qs.length;
+  const dots=Q.qs.map((x,i)=>`<i class="${i<Q.i?"d":i===Q.i?"c":""}"></i>`).join("");
+  let body="";
+  const playLabel=q.played?"↻":"▶";
+  const status=q.err?t("errv",{c:q.err}):t(clip.status,clip.statusVars);
+  const bad=q.err||clip.status==="noapi"||clip.status==="wait";
+  const player=`<div class="card player"><button class="play" id="playbtn" data-a="play" aria-label="${t("play")}">${playLabel}</button>
+    <div class="pmeta"><div id="pstatus" class="${bad?"err":""}">${esc(status)}</div><div class="bar"><i id="pbar" style="width:${clip.progress*100}%"></i></div></div></div>`;
+  const ytLink=`https://www.youtube.com/watch?v=${q.song.yt}`;
+  if(Q.phase==="ask"){
+    if(Q.mode==="mc"){
+      body=`<div class="grp"><h3>${t("title")}</h3><div class="opts">${q.titleOpts.map((o,i)=>`<button class="opt ${q.picks.title===o.id?"sel":""}" data-a="pick" data-f="title" data-i="${i}">${esc(o.label)}</button>`).join("")}</div></div>
+      <div class="grp"><h3>${t("composer")}</h3><div class="opts">${q.compOpts.map((o,i)=>`<button class="opt ${q.picks.composer===o?"sel":""}" data-a="pick" data-f="composer" data-i="${i}">${esc(o)}</button>`).join("")}</div></div>
+      <button class="btn big" data-a="check-ans" ${q.picks.title&&q.picks.composer?"":"disabled"}>${t("ans")}</button>`;
+    } else {
+      body=`<div class="grp"><div class="field"><label for="f-title">${t("title")}</label><input id="f-title" data-f="title" type="text" value="${esc(q.typed.title)}" autocomplete="off" autocorrect="off" spellcheck="false"></div>
+      <div class="field"><label for="f-composer">${t("composer")}</label><input id="f-composer" data-f="composer" type="text" value="${esc(q.typed.composer)}" autocomplete="off" autocorrect="off" spellcheck="false"></div></div>
+      <button class="btn big" data-a="check-ans">${t("ans")}</button>`;
+    }
+    if(q.err) body+=`<div class="row" style="margin-top:12px"><a class="btn ghost" style="flex:1;text-align:center;text-decoration:none" href="${ytLink}" target="_blank" rel="noopener">${t("openyt")}</a><button class="btn ghost" style="flex:1" data-a="skip">${t("skip")}</button></div>`;
+  } else {
+    const part=(label,ok,correct,yours,f)=>`<div class="part ${ok?"ok":"bad"}"><span class="tag">${ok?"✓ "+t("right"):"✗ "+t("wrong")}</span><small>${label}</small><b>${esc(correct)}</b>
+      ${!ok?`<div class="yours">${t("yours")}: ${esc(yours||t("empty"))}</div>${Q.mode==="type"?`<button class="mini" data-a="override" data-f="${f}">${t("iwas")}</button>`:""}`:""}</div>`;
+    const yT=Q.mode==="mc"?(q.titleOpts.find(o=>o.id===q.picks.title)||{}).label:q.typed.title;
+    const yC=Q.mode==="mc"?q.picks.composer:q.typed.composer;
+    const last=Q.i+1>=n;
+    body=`<div class="res">${part(t("title"),q.res.t,fullTitle(q.song),yT,"t")}${part(t("composer"),q.res.c,q.song.composer,yC,"c")}</div>
+      <a class="link" style="display:inline-block;margin-top:12px" href="${ytLink}" target="_blank" rel="noopener">${t("openyt")} ↗</a>
+      <button class="btn big" data-a="next" style="margin-top:6px">${last?t("finish"):t("next")}</button>`;
+  }
+  return `<div class="nav"><button class="link" data-a="music">${t("quit")}</button>${langToggle()}</div>
+  <div class="qhead"><span>${t("q",{i:Q.i+1,n})}</span></div><div class="dots">${dots}</div>${player}${body}`;
+}
+function viewResults(){
+  const qs=Q.qs.filter(q=>!q.skipped), n=qs.length;
+  const tt=qs.filter(q=>q.res&&q.res.t).length, cc=qs.filter(q=>q.res&&q.res.c).length;
+  const wk=weakSongs().length;
+  const pill=ok=>`<span class="pill ${ok?"ok":"bad"}">${ok?"✓":"✗"}</span>`;
+  return `<div class="nav"><button class="link" data-a="home">${t("home")}</button>${langToggle()}</div>
+  <h2>${t("res")}</h2><div class="score">${tt+cc} / ${n*2}</div>
+  <p class="sub">${t("titles")}: ${tt}/${n} · ${t("composers")}: ${cc}/${n}</p>
+  <div class="list">${Q.qs.map(q=>`<div class="item"><div class="t"><b>${esc(q.song.title)}</b><small>${esc(q.song.composer)}</small></div>
+    <div class="pills">${q.skipped?`<span class="pill na">${t("skipped")}</span>`:pill(q.res&&q.res.t)+pill(q.res&&q.res.c)}</div></div>`).join("")}</div>
+  <button class="btn big" data-a="start">${t("again")}</button>
+  ${wk?`<button class="btn big ghost" data-a="start-weak">${t("weakOnly")} (${wk})</button>`:""}`;
+}
+function viewProgress(){
+  const rows=SONGS.map(s=>{const st=P.stats[s.id]; const n=st?st.n:0;
+    const tp=n?Math.round(100*st.t/n):0, cp=n?Math.round(100*st.c/n):0;
+    const isWeak=weakSongs().some(w=>w.id===s.id);
+    return `<div class="item" style="display:block"><div style="display:flex;justify-content:space-between;gap:8px"><b>${esc(s.title)}${isWeak?`<span class="weakb">${t("weakBadge")}</span>`:""}</b><small style="color:var(--muted);white-space:nowrap">${n?n+" "+t("tries"):t("noData")}</small></div>
+    <small style="color:var(--muted)">${esc(s.composer)}</small>
+    ${n?`<div class="mbar"><span style="width:78px">${t("title")}</span><div class="bar"><i class="t" style="width:${tp}%"></i></div><span style="width:34px;text-align:right">${tp}%</span></div>
+    <div class="mbar"><span style="width:78px">${t("composer")}</span><div class="bar"><i class="c" style="width:${cp}%"></i></div><span style="width:34px;text-align:right">${cp}%</span></div>`:""}</div>`;}).join("");
+  return `<div class="nav"><button class="link" data-a="music">${t("back")}</button>${langToggle()}</div>
+  <h2>${t("prog")}</h2><div class="list">${rows}</div>
+  <button class="btn big ghost" data-a="reset">${resetArmed?t("sure"):t("reset")}</button>`;
+}
+function viewCheck(){
+  const lab=r=>r.state==="ok"?`<span class="pill ok">${t("okL")}</span>`:r.state==="bad"?`<span class="pill bad">${t("badL")}${r.err?" ("+esc(r.err)+")":""}</span>`:`<span class="pill na">${t(r.state==="load"?"loadL":"waitL")}</span>`;
+  const rows=(L.rows.length?L.rows:SONGS.map(s=>({s,state:"wait"}))).map(r=>`<div class="item" style="align-items:flex-start"><div class="t" style="white-space:normal"><b style="white-space:normal">${esc(r.s.title)}</b>
+    <small>${t("expected")}: ${esc(r.s.composer)}</small>${r.title?`<br><small>▶ ${esc(r.title)}${r.author?" — "+esc(r.author):""}</small>`:""}
+    <br><small><a href="https://www.youtube.com/watch?v=${r.s.yt}" target="_blank" rel="noopener" style="color:var(--teal)">${r.s.yt}</a></small></div><div class="pills">${L.rows.length?lab(r):""}</div></div>`).join("");
+  return `<div class="nav"><button class="link" data-a="music">${t("back")}</button>${langToggle()}</div>
+  <h2>${t("chk")}</h2><p class="sub">${t("chkInfo")}</p>
+  ${V.msg?`<div class="warn" style="margin-top:12px">${esc(V.msg.t)}</div>`:""}
+  <button class="btn big" data-a="run-check" ${L.running?"disabled":""}>${t("runChk")}</button><div class="list">${rows}</div>`;
+}
+
+function render(){
+  const v=V.name; let html="";
+  if(v==="home") html=viewHome();
+  else if(v==="soon") html=viewSoon();
+  else if(v==="music") html=viewMusic();
+  else if(v==="quiz") html=viewQuiz();
+  else if(v==="results") html=viewResults();
+  else if(v==="progress") html=viewProgress();
+  else if(v==="check") html=viewCheck();
+  const active=document.activeElement, fid=active&&active.id, pos=active&&active.selectionStart;
+  $app.innerHTML=html;
+  document.documentElement.lang=P.lang;
+  if(fid){ const el=document.getElementById(fid); if(el&&el.tagName==="INPUT"){ el.focus(); try{el.setSelectionRange(pos,pos);}catch(_){} } }
+}
+
+/* =====================================================================
+   Events
+   ===================================================================== */
+function redeem(){
+  const inp=document.getElementById("code"); const raw=inp?inp.value:"";
+  if(!raw.trim()) return;
+  const h=codeHash(raw);
+  const s=SUBJECTS.find(x=>x.codeHash===h);
+  if(!s) V.msg={k:"bad",t:t("rBad")};
+  else if(P.unlocked.includes(s.id)) V.msg={k:"bad",t:t("rDup")};
+  else { P.unlocked.push(s.id); store.save("unlocked",P.unlocked); V.msg={k:"ok",t:t("rOk",{n:s.name[P.lang]})}; }
+  render();
+}
+function act(a,d){
+  switch(a){
+    case "lang": P.lang=d.v; store.save("lang",P.lang); render(); break;
+    case "open": if(d.id==="music") go("music"); else { stopClip(); V={name:"soon",msg:null,sub:d.id}; render(); window.scrollTo(0,0); } break;
+    case "home": go("home"); break;
+    case "music": go("music"); break;
+    case "redeem": redeem(); break;
+    case "set": P.opts[d.k]=d.v; store.save("opts",P.opts); render(); break;
+    case "toggle": P.opts.random=!P.opts.random; store.save("opts",P.opts); render(); break;
+    case "start": startQuiz(false); break;
+    case "start-weak": startQuiz(true); break;
+    case "progress": go("progress"); break;
+    case "check": go("check"); break;
+    case "run-check": runCheck(); break;
+    case "reset":
+      if(resetArmed){ P.stats={}; store.save("stats",P.stats); resetArmed=false; } else resetArmed=true;
+      render(); break;
+    case "play": doPlay(); break;
+    case "pick": { const q=cur(); if(d.f==="title") q.picks.title=q.titleOpts[+d.i].id; else q.picks.composer=q.compOpts[+d.i]; render(); break; }
+    case "check-ans": checkAnswer(); break;
+    case "override": { const q=cur(); q.res[d.f]=true; render(); break; }
+    case "next": nextQ(); break;
+    case "skip": { const q=cur(); q.skipped=true; nextQ(); break; }
+  }
+}
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-a]"); if(b) act(b.dataset.a,b.dataset); });
+document.addEventListener("input",e=>{ const el=e.target; if(el.dataset&&el.dataset.f&&Q&&Q.mode==="type"&&V.name==="quiz") cur().typed[el.dataset.f]=el.value; });
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Enter") return;
+  const el=e.target;
+  if(el.id==="code"){ redeem(); }
+  else if(el.id==="f-title"){ e.preventDefault(); const n=document.getElementById("f-composer"); if(n) n.focus(); }
+  else if(el.id==="f-composer"){ e.preventDefault(); checkAnswer(); }
+  else if(V.name==="quiz"&&Q.phase==="reveal"&&el.tagName!=="A"&&el.tagName!=="BUTTON"){ nextQ(); }
+});
+
+render();
+window.__app={SONGS,matchTitle,matchComposer,norm,codeHash,P,act,get V(){return V},get Q(){return Q}};
+</script>
+</body>
+</html>
