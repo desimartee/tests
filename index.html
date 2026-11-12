@@ -357,6 +357,14 @@ small{font-size:13px;line-height:1.35}
 .stin.note{flex:1;width:100%;min-width:0;box-sizing:border-box}
 .news>*{min-width:0}
 .whorow{min-width:0}
+.vol{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px}
+.vol b{min-width:42px;text-align:right;font-size:13px;color:var(--muted)}
+.vol input[type=range]{flex:1;min-width:0;accent-color:var(--primary);height:28px}
+.player .vol,.player .vol b{color:#fff}
+.player .vol input[type=range]{accent-color:#fff}
+.fctools{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.fctools .vol{flex:1;min-width:150px;margin-top:0}
+.chip.on{background:var(--primary);color:var(--primary-ink)}
 .foot{display:flex;justify-content:center;gap:18px;margin-top:22px;flex-wrap:wrap}
 .foot .link{font-size:13px;color:var(--muted);font-weight:600}
 .news{display:grid;gap:12px;margin-top:14px}
@@ -466,13 +474,16 @@ const P = {
   klass: store.load("klass",null),
   notes: store.load("notes",{}),
   fc: store.load("fcBox",{}),
+  fcRand: store.load("fcRand",false),
+  vol: store.load("vol",100),
   theme: store.load("theme","light")
 };
 if(!I18N[P.lang]) P.lang="et";
 const DEFAULT_STARTS={"harma-tuljak":67,"kull-kodumaa":12,"saar-leelo":29,"kreek-mu-suda":6,"tubin-maksameliste":8};
 const stOf=id=>(P.starts[id]!=null?P.starts[id]:(DEFAULT_STARTS[id]!=null?DEFAULT_STARTS[id]:null));
-const APP_VER="1.10";
+const APP_VER="1.11";
 const NEWS=[
+ {v:"1.11",d:"12.11.2026",items:["Helitugevuse liugur mängijas, kuulamises ja kaartides","Kaartidel valik „Juhuslik algus“"]},
  {v:"1.10",d:"12.11.2026",items:["Õpi selgeks: kaardid (kuula ja arva või pealkiri → helilooja)","Sobitamine: ühenda pealkiri heliloojaga","Kes mida kirjutas: laulud heliloojate kaupa ja enda meelespead","Kaardid jätavad meelde, mis on sul veel nõrk"]},
  {v:"1.9.1",d:"11.11.2026",items:["Parandatud kahe laulu link („Sind surmani“ ja „Kodumaine viis“)","Laulude algusajad on nüüd vaikimisi paigas"]},
  {v:"1.9",d:"11.11.2026",items:["Kuula-režiim: kuula laule ilma testita, järjest","Vihjed testi ajal (💡)","Uus tulemuste ekraan ringi ja konfettiga","Ilusam mängija ja sujuvamad animatsioonid","Rakenduse ikoon: lisa avaekraanile","Värin (haptic) õige/vale vastuse puhul"]},
@@ -547,7 +558,7 @@ window.onYouTubeIframeAPIReady=function(){
   const pv={controls:0,disablekb:1,fs:0,playsinline:1,rel:0,iv_load_policy:3,modestbranding:1,enablejsapi:1};
   if(/^https?:$/.test(location.protocol)) pv.origin=location.origin;
   yt.player=new YT.Player("ytp",{height:"200",width:"200",playerVars:pv,
-    events:{onReady:()=>{yt.ready=true;},onStateChange:onYtState,onError:onYtError}});
+    events:{onReady:()=>{yt.ready=true; applyVol();},onStateChange:onYtState,onError:onYtError}});
 };
 function onYtState(e){
   const S_=window.YT&&YT.PlayerState; if(!S_) return;
@@ -560,10 +571,14 @@ function onYtState(e){
   const q=clip.q; if(!q) return;
   if(e.data===S_.CUED && !clip.began){ try{ yt.player.playVideo(); }catch(_){} return; }
   if(e.data===S_.PLAYING && !clip.began){
-    clip.began=true; clearTimeout(clip.wd);
+    clip.began=true; clearTimeout(clip.wd); applyVol();
     if(q.start==null){
       let st=0; const cs=stOf(q.song.id);
-      if(cs!=null){ st=cs; if(st>0) yt.player.seekTo(st,true); }
+      if(q.rand){
+        const dur=yt.player.getDuration()||0; const max=Math.floor(dur-q.len-3);
+        if(max>5){ st=Math.floor(Math.random()*max); yt.player.seekTo(st,true); }
+      }
+      else if(cs!=null){ st=cs; if(st>0) yt.player.seekTo(st,true); }
       else if(P.opts.random){
         const dur=yt.player.getDuration()||0;
         const max=Math.floor(dur-q.len-3);
@@ -820,6 +835,8 @@ function seg(key,vals,curv,dis){
   if(!pk(key)) curv=null;
   return `<div class="seg">${vals.map(([v,l])=>`<button class="${String(curv)===v?"on":""}" ${dis&&dis.includes(v)?"disabled":""} data-a="set" data-k="${key}" data-v="${v}">${l}</button>`).join("")}</div>`;
 }
+function applyVol(){ try{ if(yt.player&&yt.player.setVolume) yt.player.setVolume(P.vol); }catch(_){} }
+const volHtml=()=>`<label class="vol"><span aria-hidden="true">${P.vol===0?"🔇":P.vol<50?"🔈":"🔊"}</span><input type="range" min="0" max="100" step="1" value="${P.vol}" data-vol aria-label="Helitugevus"><b>${P.vol}%</b></label>`;
 function updateSnipUI(k,v){
   document.querySelectorAll(".snipbtn").forEach(b=>{ const on=!!(clip.q&&clip.q.snip&&b.dataset.id===clip.q.song.id&&["loading","playing"].includes(k)); b.textContent=on?"❚❚":"▶"; b.classList.toggle("on",on); });
   const e=document.getElementById("snipst"); if(e){ const bad=["errv","slow","noapi","wait"].includes(k); e.textContent=bad?(k==="errv"?t("errv",v):t(k,v)):""; }
@@ -830,10 +847,11 @@ function snip(id){
   if(yt.failed){ clip.q={song,snip:1}; updateSnipUI("noapi"); return; }
   if(!yt.ready){ clip.q={song,snip:1}; updateSnipUI("wait"); return; }
   stopClip(true);
-  const q={song,len:18,start:stOf(id)||0,altIdx:0,vid:song.yt,snip:1};
+  const rnd=!!(P.fcRand&&V.name==="fc");
+  const q={song,len:18,start:rnd?null:(stOf(id)||0),rand:rnd,altIdx:0,vid:song.yt,snip:1};
   clip.q=q; clip.began=false; clip.progress=0; clip.err=false; clip.status="loading"; updateSnipUI("loading");
   clearTimeout(clip.wd); clip.wd=setTimeout(()=>{ if(clip.status==="loading") setStatus("slow"); },9000);
-  try{ yt.player.loadVideoById({videoId:song.yt,startSeconds:q.start}); }catch(_){ setStatus("errv",{c:5}); }
+  try{ yt.player.loadVideoById({videoId:song.yt,startSeconds:q.start||0}); }catch(_){ setStatus("errv",{c:5}); }
 }
 const comp3=s=>s.composer;
 function boxOf(id){ return P.fc[id]||0; }
@@ -872,6 +890,7 @@ function viewListen(){
     <div class="cm">${now?(show(now.id)?esc(now.composer):"Kuula ja proovi ära arvata"):"või vajuta ▶ ja alusta algusest"}</div></div><div class="eq"><i></i><i></i><i></i><i></i><i></i></div></div>
     <div id="pstatus" style="font-weight:600;margin-bottom:8px" class="${["errv","noapi","wait","slow"].includes(st)?"err":""}">${esc(status)}</div>
     <div class="bar"><i id="pbar" style="width:${clip.progress*100}%"></i></div>
+    ${volHtml()}
     <div class="lsctl"><button data-a="ls-prev" aria-label="Eelmine">⏮</button><button class="main" data-a="ls-toggle" aria-label="Mängi/peata">${st==="playing"?"❚❚":"▶"}</button><button data-a="ls-next" aria-label="Järgmine">⏭</button></div>
     ${L_.hide&&now&&!L_.shown[now.id]?`<button class="btn ghost sm" style="margin-top:12px;background:rgba(255,255,255,.18);color:#fff;border-color:transparent" data-a="ls-show">Näita nime</button>`:""}</div>`;
   const rows=list.map((s,i)=>`<button class="lsrow ${L_.id===s.id?"on":""}" data-a="ls-play" data-id="${esc(s.id)}"><span class="n">${L_.id===s.id&&st==="playing"?"♪":i+1}</span><span style="min-width:0"><b>${show(s.id)?esc(s.title):"Laul "+(i+1)}</b><small>${show(s.id)?esc(s.composer):"nimi peidetud"}</small></span></button>`).join("");
@@ -907,7 +926,9 @@ function viewFC(){
     <div class="list" style="display:grid;gap:10px;margin-top:14px">
     <button class="lsrow big" data-a="fc-start" data-v="audio"><span class="n">🎧</span><span><b>Kuula ja arva</b><small>Kuuled lõiku, pöörad kaardi ja näed vastust</small></span></button>
     <button class="lsrow big" data-a="fc-start" data-v="title"><span class="n">🔤</span><span><b>Pealkiri → helilooja</b><small>Näed pealkirja, arvad heliloojat</small></span></button>
-    <button class="lsrow big" data-a="fc-start" data-v="mix"><span class="n">🔀</span><span><b>Segamini</b><small>Mõlemat vaheldumisi</small></span></button></div>`;
+    <button class="lsrow big" data-a="fc-start" data-v="mix"><span class="n">🔀</span><span><b>Segamini</b><small>Mõlemat vaheldumisi</small></span></button></div>
+    <div class="set"><button class="switch ${P.fcRand?"on":""}" data-a="fc-rand"><span>🎲 Juhuslik algus (kuulates)</span><i></i></button></div>
+    <div class="card" style="margin-top:12px">${volHtml()}</div>`;
   }
   if(V.phase==="done"){
     const tot=V.total, miss=Object.keys(V.missed).length, ok=tot-miss;
@@ -925,6 +946,7 @@ function viewFC(){
     :`<div class="fcq">Kes on helilooja?</div><div class="fct">${esc(x.title)}</div><small class="fchint">Puuduta kaarti, et vastust näha</small>`;
   const backc=`<div class="fct">${esc(x.title)}</div><div class="fcc">${esc(x.composer)}</div>${x.note?`<small>${esc(x.note)}</small>`:""}${myNote}<button class="snipbtn" data-a="snip" data-id="${esc(x.id)}" aria-label="Mängi">▶</button>`;
   return back+`<div class="fcprog"><span>Kaart ${V.i+1} / ${V.deck.length}</span><div class="bar"><i style="width:${pct}%"></i></div></div>
+  <div class="fctools"><button class="chip ${P.fcRand?"on":""}" data-a="fc-rand">🎲 Juhuslik algus: ${P.fcRand?"sees":"väljas"}</button>${volHtml()}</div>
   <div class="fcard ${V.flip?"flip":""}" data-a="fc-flip">${V.flip?backc:front}</div>
   <p id="snipst" class="hint err center" style="min-height:20px"></p>
   ${V.flip?`<div class="fcbtns"><button class="btn big ghost" data-a="fc-dont">😕 Ei tea</button><button class="btn big" data-a="fc-know">✓ Tean</button></div>`:`<button class="btn big" data-a="fc-flip">Näita vastust</button>`}`;
@@ -954,7 +976,7 @@ function viewWho(){
     <div class="notewrap"><input id="nt-${esc(x.id)}" class="stin note" type="text" maxlength="140" placeholder="Minu meelespea…" value="${esc(P.notes[x.id]||"")}" autocomplete="off"><button class="chip" data-a="note-save" data-id="${esc(x.id)}">${V.saved===x.id?"✓":"Salvesta"}</button></div></div></div>`).join("")}</div>`).join("");
   return `<div class="nav"><button class="link" data-a="study">${t("back")}</button>${langToggle()}</div>
   <h2>Kes mida kirjutas</h2><p class="sub">Puuduta ▶ ja kuula. Kirjuta ise meelespea, näiteks mis sulle laulust meelde jääb.</p>
-  <p id="snipst" class="hint err" style="min-height:18px"></p><div class="news">${cards}</div>`;
+  <div class="card" style="margin-bottom:10px">${volHtml()}</div><p id="snipst" class="hint err" style="min-height:18px"></p><div class="news">${cards}</div>`;
 }
 function viewMusic(){
   const wk=weakSongs().length;
@@ -996,7 +1018,7 @@ function viewQuiz(){
   const bad=q.err||clip.status==="noapi"||clip.status==="wait"||clip.status==="slow";
   const player=`<div class="card player" data-s="${st}"><button class="play" id="playbtn" data-a="ptoggle" aria-label="${t("play")}"><span class="ring"></span><span class="ring r2"></span>
     <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path class="i-play" d="M8 5.2v13.6a1 1 0 0 0 1.5.86l11-6.8a1 1 0 0 0 0-1.72l-11-6.8A1 1 0 0 0 8 5.2z"/><g class="i-pause"><rect x="6.2" y="4.8" width="4.2" height="14.4" rx="1.4"/><rect x="13.6" y="4.8" width="4.2" height="14.4" rx="1.4"/></g><path class="i-replay" d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg></button>
-    <div class="pmeta"><div id="pstatus" class="${bad?"err":""}">${esc(status)}</div><div class="bar"><i id="pbar" style="width:${clip.progress*100}%"></i></div></div>
+    <div class="pmeta"><div id="pstatus" class="${bad?"err":""}">${esc(status)}</div><div class="bar"><i id="pbar" style="width:${clip.progress*100}%"></i></div>${volHtml()}</div>
     <div class="eq"><i></i><i></i><i></i><i></i><i></i></div><button class="rp" data-a="replay" aria-label="${t("replayL")}" ${q.played?"":"hidden"}>↻</button></div>`;
   const ytLink=`https://www.youtube.com/watch?v=${q.vid||q.song.yt}`;
   let body="";
@@ -1481,6 +1503,7 @@ function act(a,d){
       if(V.i>=V.deck.length){ V.phase="done"; render(); if(Object.keys(V.missed).length<=V.total*.3) confetti(); } else { render(); flashQ(V.i+1,V.deck.length); }
       break; }
     case "fc-redo": { const ids=Object.keys(V.missed); V.deck=fcBuild(ids,V.mode||"mix"); V.total=V.deck.length; V.i=0; V.flip=false; V.missed={}; V.phase="card"; render(); break; }
+    case "fc-rand": P.fcRand=!P.fcRand; store.save("fcRand",P.fcRand); hap("tap"); render(); break;
     case "fc-again": V.phase="intro"; render(); break;
     case "mt-new": mtRound(); render(); break;
     case "mt-l": case "mt-r": { const side=a==="mt-l"?"L":"R"; V["sel"+side]=d.id; hap("tap");
@@ -1543,6 +1566,7 @@ function act(a,d){
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-a]"); if(b) act(b.dataset.a,b.dataset); });
 document.addEventListener("input",e=>{ const el=e.target;
+  if(el.dataset&&el.dataset.vol!==undefined){ P.vol=parseInt(el.value,10)||0; store.save("vol",P.vol); applyVol(); const lb=el.closest(".vol"); if(lb){ lb.querySelector("b").textContent=P.vol+"%"; lb.querySelector("span").textContent=P.vol===0?"🔇":P.vol<50?"🔈":"🔊"; } document.querySelectorAll("[data-vol]").forEach(o=>{ if(o!==el) o.value=P.vol; }); return; }
   if(el.dataset&&el.dataset.f&&Q&&Q.mode==="type"&&V.name==="quiz") cur().typed[el.dataset.f]=el.value;
   else if(el.id==="qa-in"&&QZ) QZ.qs[QZ.i].typed=el.value;
   else if(el.dataset&&el.dataset.g&&V.form) V.form[el.dataset.g]=el.value; });
